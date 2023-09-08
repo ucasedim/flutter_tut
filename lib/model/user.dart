@@ -7,8 +7,8 @@ class User {
   final String photoUrl;
   final String username;
   final String bio;
-  final List   followers;
-  final List   following;
+  final List?  followers;
+  final List?  following;
 
   const User({
     required this.email,

@@ -1,3 +1,6 @@
+import '../model/user.dart' as model;
+import 'package:flutter_tut/providers/user_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_tut/log/test_logger.dart';
@@ -36,9 +39,11 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout>{
 
   @override
   Widget build(BuildContext context) {
+    model.User user = Provider.of<UserProvider>(context).getUser;
     return Scaffold(
       body: Center(
-        child: Text('$username'),
+        child: Text(user.email),
+        //child: Text(username),
       ),
     );
   }
