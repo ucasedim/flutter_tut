@@ -98,7 +98,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 ),
                 //svg image
                 SvgPicture.asset(
-                  'assets/ic_instagram.svg',
+                  'assets/ic_wow_logo.svg',
                   color: primaryColor,
                   height: 64,
                 ),

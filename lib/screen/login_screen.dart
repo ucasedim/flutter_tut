@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_tut/screen/home_screen.dart';
 import 'package:flutter_tut/screen/signup_screen.dart';
 import 'package:flutter_tut/utils/colors.dart';
+import 'package:flutter_tut/utils/global_variables.dart';
 import 'package:flutter_tut/utils/utils.dart';
 import '../resources/auth_methods.dart';
 import '../widgets/text_field_input.dart';
@@ -68,7 +69,12 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       body: Center(
           child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 32),
+        padding: MediaQuery.of(context).size.width>webScreenSize?
+        EdgeInsets.symmetric(
+          horizontal: MediaQuery.of(context).size.width/4
+        ):
+        EdgeInsets.symmetric(horizontal: 32)
+        ,
         width: double.infinity,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -78,10 +84,16 @@ class _LoginScreenState extends State<LoginScreen> {
               flex: 2,
             ),
             //svg image
+            const Image(
+                image: AssetImage('assets/wow_logo.png'),
+              width: 160,
+                height: 64,
+            ),
             SvgPicture.asset(
-              'assets/ic_instagram.svg',
+              'assets/android-color-svgrepo-com.svg',
               color: primaryColor,
               height: 64,
+              fit: BoxFit.cover,
             ),
             const SizedBox(
               height: 24,

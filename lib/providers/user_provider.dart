@@ -13,6 +13,5 @@ class UserProvider with ChangeNotifier{
     User user = await _autoMethod.getUserDetails();
     _user = user;
     notifyListeners();
-
   }
 }
