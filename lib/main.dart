@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_tut/log/test_logger.dart';
 import 'package:flutter_tut/providers/user_provider.dart';
 import 'package:logger/logger.dart';
@@ -14,23 +15,37 @@ import 'package:flutter_tut/utils/colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
 
+import 'api/firebase_api.dart';
+import 'api/notification.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   if (kIsWeb) {
     await Firebase.initializeApp(
-        options: FirebaseOptions(
+        options: const FirebaseOptions(
             apiKey: 'AIzaSyAcWf7-fdnB2LdWBVMocLWsaeSIpA3NEiA',
             appId: '1:949694906192:web:c74d351b841e7e3fd53655',
             messagingSenderId: '949694906192',
             projectId: 'instragram-tutc',
-            storageBucket: 'instragram-tutc.appspot.com'
+            storageBucket: 'instragram-tutc.appspot.com',
         )
     );
+    await FirebaseApi().initNotifications();
   } else {
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
+    await FirebaseApi().initNotifications();
   }
+
+  FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+    logger.i("onMessage!!Lissten ${message.notification?.title}");
+    FlutterLocalNotification.showNotification(
+      '${message.notification?.title}',
+      '${message.notification?.body}',
+    );
+  });
 
 
   runApp(const MyApp());
@@ -57,12 +72,10 @@ class MyApp extends StatelessWidget {
           home: StreamBuilder(
             stream: FirebaseAuth.instance.authStateChanges(),
             builder: (context , snapshot){
-
-              loggerNoStack.i('snapshot.connectionState : ');
-              loggerNoStack.i(snapshot.connectionState);
-              loggerNoStack.i('ConnectionState.active');
-              loggerNoStack.i(ConnectionState.active);
-
+              //loggerNoStack.i('snapshot.connectionState : ');
+              //loggerNoStack.i(snapshot.connectionState);
+              //loggerNoStack.i('ConnectionState.active');
+              //loggerNoStack.i(ConnectionState.active);
               if(snapshot.connectionState == ConnectionState.active) {
 
                 loggerNoStack.i('snapshot.hasData');

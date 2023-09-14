@@ -3,6 +3,7 @@ import 'package:flutter_tut/utils/colors.dart';
 import 'package:flutter_tut/utils/global_variables.dart';
 import 'package:flutter_tut/utils/utils.dart';
 
+import '../api/notification.dart';
 import '../model/user.dart' as model;
 import 'package:flutter_tut/providers/user_provider.dart';
 import 'package:provider/provider.dart';
@@ -20,7 +21,9 @@ class MobileScreenLayout extends StatefulWidget {
 
 }
 
-class _MobileScreenLayoutState extends State<MobileScreenLayout>{
+class _MobileScreenLayoutState extends State<MobileScreenLayout>
+    with WidgetsBindingObserver {
+
   int _page = 0;
   late PageController pageController;
 
@@ -28,15 +31,38 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout>{
 
   @override
   void initState() {
-    super.initState();
     pageController = PageController();
     getUsername();
+
+    // 초기화
+    FlutterLocalNotification.init();
+
+    // 3초 후 권한 요청
+    Future.delayed(
+        const Duration(seconds: 3),
+        FlutterLocalNotification.requestNotificationPermission()
+    );
+
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) async {
+    print("didChangeAppLifecycleState: ${state.index} : ${state}");
+    appLifecycleState = state.index==null ? 0 : state.index;
+    super.didChangeAppLifecycleState(state);
   }
 
   void navigationTapped(int page){
     pageController.jumpToPage(page);
-
-
   }
 
   void getUsername() async {
@@ -64,7 +90,7 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout>{
           .of<UserProvider>(context)
           .getUser;
     } catch(e){
-      showSnackBar(e.toString(), context);
+      //showSnackBar(e.toString(), context);
     }
     return Scaffold(
       body:PageView(

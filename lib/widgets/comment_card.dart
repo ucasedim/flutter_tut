@@ -36,14 +36,28 @@ class _CommentCardState extends State<CommentCard> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    Row(
+                      children: [
+                        Text(
+                          widget.snap['name'],
+                          style: const TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 5),
+                          child: Text(
+                            widget.snap['text'],
+                          ),
+                        )
+                      ],
+                    ),
                     RichText(text: TextSpan(
                       children: [
                         TextSpan(
-                          text: widget.snap['name'],
+                          text: widget.snap['name'] + '111111',
                           style: const TextStyle(fontWeight: FontWeight.bold, ),
                         ),
                         TextSpan(
-                          text: widget.snap['text'],
+                          text: widget.snap['text'] ,
                         ),
                       ]
                       ),
