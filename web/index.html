@@ -32,6 +32,8 @@
   <title>flutter_tut</title>
   <link rel="manifest" href="manifest.json">
 
+  <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-messaging.js"></script>
   <script>
     // The value below is injected by flutter build, do not touch.
     const serviceWorkerVersion = null;
@@ -40,6 +42,20 @@
   <script src="flutter.js" defer></script>
 </head>
 <body>
+  <script type="text/javascript">
+  /*
+    const firebaseConfig = {
+      apiKey: 'AIzaSyAcWf7-fdnB2LdWBVMocLWsaeSIpA3NEiA',
+      appId: '1:949694906192:web:c74d351b841e7e3fd53655',
+      messagingSenderId: '949694906192',
+      projectId: 'instragram-tutc',
+      authDomain: 'instragram-tutc.firebaseapp.com',
+      databaseURL: 'https://instragram-tutc-default-rtdb.asia-southeast1.firebasedatabase.app',
+      storageBucket: 'instragram-tutc.appspot.com',
+    };
+  */
+    //firebase.initializeApp(firebaseConfig);
+  </script>
   <script>
     window.addEventListener('load', function(ev) {
       // Download main.dart.js
@@ -48,7 +64,7 @@
           serviceWorkerVersion: serviceWorkerVersion,
         },
         onEntrypointLoaded: function(engineInitializer) {
-          engineInitializer.initializeEngine({ renderer:"html" }).then(function(appRunner) {
+          engineInitializer.initializeEngine({renderer:"html"}).then(function(appRunner) {
             appRunner.runApp();
           });
         }

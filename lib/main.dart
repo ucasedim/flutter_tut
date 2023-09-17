@@ -1,4 +1,5 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_tut/log/test_logger.dart';
 import 'package:flutter_tut/providers/user_provider.dart';
 import 'package:logger/logger.dart';
@@ -22,31 +23,29 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   if (kIsWeb) {
+
+    logger.w('kIsWeb Context Start');
+
     await Firebase.initializeApp(
-        options: const FirebaseOptions(
-            apiKey: 'AIzaSyAcWf7-fdnB2LdWBVMocLWsaeSIpA3NEiA',
-            appId: '1:949694906192:web:c74d351b841e7e3fd53655',
-            messagingSenderId: '949694906192',
-            projectId: 'instragram-tutc',
-            storageBucket: 'instragram-tutc.appspot.com',
-        )
+        options: DefaultFirebaseOptions.web,
     );
-    await FirebaseApi().initNotifications();
+
+    await FirebaseWebApi().initNotifications();
+
   } else {
+    logger.w('kIsElse Context Start');
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
     await FirebaseApi().initNotifications();
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      logger.i("onMessage!!Lissten ${message.notification?.title}");
+      FlutterLocalNotification.showNotification(
+        '${message.notification?.title}',
+        '${message.notification?.body}',
+      );
+    });
   }
-
-  FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-    logger.i("onMessage!!Lissten ${message.notification?.title}");
-    FlutterLocalNotification.showNotification(
-      '${message.notification?.title}',
-      '${message.notification?.body}',
-    );
-  });
-
 
   runApp(const MyApp());
 }
@@ -54,9 +53,12 @@ void main() async {
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
+
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+
     return MultiProvider(
         providers: [
           ChangeNotifierProvider(

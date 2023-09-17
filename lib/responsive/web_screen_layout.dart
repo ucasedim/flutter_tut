@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_tut/utils/colors.dart';
@@ -20,11 +21,16 @@ class _WebScreenLayoutState extends State<WebScreenLayout> {
   late PageController pageController;
   String username = "";
 
+  int notificationCount = 0;
+
   @override
   void initState() {
     super.initState();
     pageController = PageController();
     getUsername();
+    /* webtoken */
+    //getPermission();
+    //messageListener(context);
   }
 
   void navigationTapped(int page){
@@ -95,4 +101,73 @@ class _WebScreenLayoutState extends State<WebScreenLayout> {
     );
 
   }
+}
+
+
+//push notification dialog for foreground
+class DynamicDialog extends StatefulWidget {
+  final title;
+  final body;
+  DynamicDialog({this.title, this.body});
+  @override
+  _DynamicDialogState createState() => _DynamicDialogState();
+}
+
+class _DynamicDialogState extends State<DynamicDialog> {
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: Text(widget.title),
+      actions: <Widget>[
+        OutlinedButton.icon(
+            label: Text('Close'),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: Icon(Icons.close))
+      ],
+      content: Text(widget.body),
+    );
+  }
+}
+
+
+Future<void> getPermission() async {
+  try {
+    FirebaseMessaging messaging = FirebaseMessaging.instance;
+
+    NotificationSettings settings = await messaging.requestPermission(
+      alert: true,
+      announcement: false,
+      badge: true,
+      carPlay: false,
+      criticalAlert: true,
+      provisional: false,
+      sound: true,
+    );
+
+    print('User granted permission: ${settings.authorizationStatus}');
+  }catch(e){
+    logger.e(e.toString());
+  }
+}
+
+void messageListener(BuildContext context) {
+  print('messageListener in');
+  FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+    print('Got a message whilst in the foreground!');
+    print('Message data: ${message.data}');
+    print('zzzzzzzzzzzzzz');
+
+    if (message.notification != null) {
+      print('Message also contained a notification: ${message.notification?.body}');
+      showDialog(
+          context: context,
+          builder: ((BuildContext context) {
+            return DynamicDialog(
+                title: message.notification?.title,
+                body: message.notification?.body);
+          }));
+    }
+  });
 }
