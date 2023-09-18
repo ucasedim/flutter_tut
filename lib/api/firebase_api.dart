@@ -3,6 +3,7 @@ import 'package:firebase_messaging_web/firebase_messaging_web.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_tut/responsive/mobile_screen_layout.dart';
 import 'package:flutter_tut/utils/global_variables.dart';
+import 'package:restart_app/restart_app.dart';
 
 import '../log/test_logger.dart';
 import 'notification.dart';
@@ -29,13 +30,27 @@ class FirebaseApi{
 
 
 class FirebaseWebApi{
-  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
-  Future<void> initNotifications() async {
-    //await _firebaseMessaging.requestPermission();
-    final FCMToken;
-    FCMToken = await _firebaseMessaging.getToken();
-    print('Token : $FCMToken');
-    logger.e('Token : $FCMToken');
+
+    final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
+    Future<void> initNotifications() async {
+      try {
+        //await _firebaseMessaging.requestPermission();
+        final FCMToken;
+        FCMToken = await _firebaseMessaging.getToken();
+        print('Token : $FCMToken');
+        logger.e('Token : $FCMToken');
+      }catch(e){
+        logger.w(e.toString());
+        logger.w(e.toString());
+        logger.w(e.toString());
+        logger.w(e.toString());
+        logger.w(e.toString());
+        logger.w(e.toString());
+        logger.w(e.toString());
+        logger.w(e.toString());
+        Restart.restartApp();
+      }
     //FirebaseMessaging.onBackgroundMessage(handleBackgroundMessage);
-  }
+    }
+
 }

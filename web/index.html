@@ -36,7 +36,7 @@
   <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-messaging.js"></script>
   <script>
     // The value below is injected by flutter build, do not touch.
-    const serviceWorkerVersion = null;
+    const serviceWorkerVersion = '1';
   </script>
   <!-- This script adds the flutter initialization JS code -->
   <script src="flutter.js" defer></script>
@@ -55,21 +55,74 @@
     };
   */
     //firebase.initializeApp(firebaseConfig);
+try{
+     window.addEventListener('load', function(ev) {
+        //var loading = document.querySelector('#loading');
+        //loading.textContent = "Loading entrypoint...";
+        // Download main.dart.js
+        _flutter.loader.loadEntrypoint({
+          serviceWorker: {
+            serviceWorkerVersion: serviceWorkerVersion,
+          },
+          onEntrypointLoaded: async function(engineInitializer) {
+            //loading.textContent = "Initializing engine...";
+            let appRunner = await engineInitializer.initializeEngine({renderer:"html"});
+
+            //loading.textContent = "Running app...";
+            await appRunner.runApp();
+          }
+          /*
+          onEntrypointLoaded: async function(engineInitializer) {
+            await engineInitializer.initializeEngine({renderer:"html"}).then(function(appRunner) {
+              appRunner.runApp();
+            });
+          }
+          */
+        });
+      });
+      }catch(e){
+      location.reload();
+      }
   </script>
   <script>
-    window.addEventListener('load', function(ev) {
-      // Download main.dart.js
-      _flutter.loader.loadEntrypoint({
-        serviceWorker: {
-          serviceWorkerVersion: serviceWorkerVersion,
-        },
-        onEntrypointLoaded: function(engineInitializer) {
-          engineInitializer.initializeEngine({renderer:"html"}).then(function(appRunner) {
-            appRunner.runApp();
-          });
+/*
+    navigator.serviceWorker.register('firebase-messaging-sw.js', {scope: "/"})
+    .then(
+    function (reg) {
+        var serviceWorker;
+        if (reg.installing) {
+            serviceWorker = reg.installing;
+            // console.log('Service worker installing');
+        } else if (reg.waiting) {
+            serviceWorker = reg.waiting;
+            // console.log('Service worker installed & waiting');
+        } else if (reg.active) {
+            serviceWorker = reg.active;
+            // console.log('Service worker active');
         }
-      });
-    });
+
+        if (serviceWorker) {
+            console.log("sw current state", serviceWorker.state);
+            if (serviceWorker.state == "activated") {
+                //If push subscription wasnt done yet have to do here
+                console.log("sw already activated - Do watever needed here");
+            }
+            serviceWorker.addEventListener("statechange", function(e) {
+                console.log("sw statechange : ", e.target.state);
+                if (e.target.state == "activated") {
+                    // use pushManger for subscribing here.
+                    console.log("Just now activated. now we can subscribe for push notification")
+                    //subscribeForPushNotification(reg);
+                }
+            });
+        }
+    },
+    function (err) {
+        console.error('unsuccessful registration with ', workerFileName, err);
+    }
+
+);
+*/
   </script>
 </body>
 </html>

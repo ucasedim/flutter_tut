@@ -33,7 +33,6 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout>
   void initState() {
     pageController = PageController();
     getUsername();
-
     // 초기화
     FlutterLocalNotification.init();
 

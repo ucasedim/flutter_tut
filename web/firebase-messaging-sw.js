@@ -16,6 +16,17 @@ firebase.initializeApp({
 const messaging = firebase.messaging();
 
 // Optional:
+
+messaging.onMessage(function(payload){
+        console.log('onMessage: ', payload);
+        var title = "고라니 서비스";
+        var options = {
+                body: payload.notification.body
+        };
+
+        //var notification = new Notification(title, options);
+});
+
 messaging.onBackgroundMessage((m) => {
   console.log("onBackgroundMessage", m);
 
@@ -23,6 +34,5 @@ messaging.onBackgroundMessage((m) => {
       const notificationOptions = {
         body: m.notification.body,
       };
-
-      // self.registration.showNotification(notificationTitle,notificationOptions);
+      //self.registration.showNotification(notificationTitle,notificationOptions);
 });
