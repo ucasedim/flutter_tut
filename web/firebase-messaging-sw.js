@@ -24,7 +24,5 @@ messaging.onBackgroundMessage((m) => {
         body: m.notification.body,
       };
 
-      self.registration.showNotification(notificationTitle,
-        notificationOptions);
-
+      // self.registration.showNotification(notificationTitle,notificationOptions);
 });

@@ -23,15 +23,18 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   if (kIsWeb) {
-
     logger.w('kIsWeb Context Start');
-
     await Firebase.initializeApp(
         options: DefaultFirebaseOptions.web,
     );
-
-    await FirebaseWebApi().initNotifications();
-
+    //await FirebaseWebApi().initNotifications();
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      logger.i("onMessage!!Lissten ${message.notification?.title}");
+      FlutterLocalNotification.showNotification(
+        '${message.notification?.title}',
+        '${message.notification?.body}',
+      );
+    });
   } else {
     logger.w('kIsElse Context Start');
     await Firebase.initializeApp(
@@ -66,7 +69,7 @@ class MyApp extends StatelessWidget {
           ),
         ],
         child: MaterialApp(
-          debugShowCheckedModeBanner: true,
+          debugShowCheckedModeBanner: false,
           title: 'Instagram Clone',
           theme: ThemeData.dark().copyWith(
             scaffoldBackgroundColor: mobileBackgroundColor,

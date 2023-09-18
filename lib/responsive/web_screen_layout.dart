@@ -61,43 +61,43 @@ class _WebScreenLayoutState extends State<WebScreenLayout> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: mobileBackgroundColor,
-        centerTitle: false,
-        title: SvgPicture.asset(
-          'assets/ic_wow_logo.svg',
-          color: primaryColor,
-          height: 32,
+        appBar: AppBar(
+          backgroundColor: mobileBackgroundColor,
+          centerTitle: false,
+          title: SvgPicture.asset(
+            'assets/ic_wow_logo.svg',
+            color: primaryColor,
+            height: 32,
+          ),
+          actions: [
+            IconButton(
+              onPressed: ()=>navigationTapped(0),
+              icon: Icon(Icons.home , color: _page == 0? primaryColor : secondaryColor),
+            ),
+            IconButton(
+              onPressed: ()=>navigationTapped(1),
+              icon: Icon(Icons.search, color: _page == 1? primaryColor : secondaryColor),
+            ),
+            IconButton(
+              onPressed: ()=>navigationTapped(2),
+              icon: Icon(Icons.add_a_photo, color: _page == 2? primaryColor : secondaryColor),
+            ),
+            IconButton(
+              onPressed: ()=>navigationTapped(3),
+              icon: Icon(Icons.favorite, color: _page == 3? primaryColor : secondaryColor),
+            ),
+            IconButton(
+              onPressed: ()=>navigationTapped(4),
+              icon: Icon(Icons.person, color: _page == 4? primaryColor : secondaryColor),
+            ),
+          ],
         ),
-        actions: [
-          IconButton(
-            onPressed: ()=>navigationTapped(0),
-            icon: Icon(Icons.home , color: _page == 0? primaryColor : secondaryColor),
-          ),
-          IconButton(
-            onPressed: ()=>navigationTapped(1),
-            icon: Icon(Icons.search, color: _page == 1? primaryColor : secondaryColor),
-          ),
-          IconButton(
-            onPressed: ()=>navigationTapped(2),
-            icon: Icon(Icons.add_a_photo, color: _page == 2? primaryColor : secondaryColor),
-          ),
-          IconButton(
-            onPressed: ()=>navigationTapped(3),
-            icon: Icon(Icons.favorite, color: _page == 3? primaryColor : secondaryColor),
-          ),
-          IconButton(
-            onPressed: ()=>navigationTapped(4),
-            icon: Icon(Icons.person, color: _page == 4? primaryColor : secondaryColor),
-          ),
-        ],
-      ),
-      body: PageView(
-        physics: NeverScrollableScrollPhysics(),
-        children: homeScreenItems,
-        controller: pageController,
-        onPageChanged: onPageChanged,
-      )
+        body: PageView(
+          physics: NeverScrollableScrollPhysics(),
+          children: homeScreenItems,
+          controller: pageController,
+          onPageChanged: onPageChanged,
+        )
     );
 
   }

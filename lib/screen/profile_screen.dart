@@ -1,11 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tut/log/test_logger.dart';
 import 'package:flutter_tut/resources/auth_methods.dart';
 import 'package:flutter_tut/resources/firestore_mehtod.dart';
+import 'package:flutter_tut/responsive/mobile_screen_layout.dart';
+import 'package:flutter_tut/screen/add_post_screen.dart';
 import 'package:flutter_tut/screen/login_screen.dart';
+import 'package:flutter_tut/screen/notification_setting.dart';
 import 'package:flutter_tut/utils/colors.dart';
+import 'package:flutter_tut/utils/global_variables.dart';
 import 'package:flutter_tut/utils/utils.dart';
 
 import '../widgets/follow_button.dart';
@@ -28,6 +33,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
   int following = 0;
   bool isFollowing = false;
   bool isLoading = false;
+
+
+  int _page = 0;
   @override
   void initState() {
     super.initState();
@@ -68,100 +76,113 @@ class _ProfileScreenState extends State<ProfileScreen> {
     });
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return isLoading ? const Center(child: CircularProgressIndicator(),) :
-    Scaffold(
+  _pageController(){
+    if(_page == 0){
+      return Scaffold(
         appBar: AppBar(
           backgroundColor: mobileBackgroundColor,
           title: Text(
               userData['username'] != null ? userData['username'] : '???ERROR???'
           ),
+          actions: [
+            IconButton(
+                onPressed: (){
+                  setState(() {
+                    _page = 1;
+                  });
+                  },
+                icon: Icon(Icons.notifications_active)
+            ),
+            IconButton(
+                onPressed: (){},
+                icon: Icon(Icons.menu)
+            ),
+          ],
           centerTitle: false,
         ),
-      body: ListView(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column( children: [
+        body: ListView(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column( children: [
                 Row(
                   children: [
                     CircleAvatar(
                       backgroundColor: mobileBackgroundColor,
                       backgroundImage:
-                          userData['photoUrl'] != null ?
-                              NetworkImage(userData['photoUrl'])
-                              :
-                              NetworkImage('https://images.unsplash.com/photo-1606041008023-472dfb5e530f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1976&q=80'),
+                      userData['photoUrl'] != null ?
+                      NetworkImage(userData['photoUrl'])
+                          :
+                      NetworkImage('https://images.unsplash.com/photo-1606041008023-472dfb5e530f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1976&q=80'),
                       radius: 40,
                     ),
                     Expanded(
                       flex: 1,
                       child: Column(
-                          children: [
-                            Row(
-                              mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                buildStatColumn(postLen , "posts"),
-                                buildStatColumn(followers , "follower"),
-                                buildStatColumn(following , "following"),
-                              ],
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                FirebaseAuth.instance.currentUser!.uid == widget.uid ?
-                                FollowButton(
-                                  //text: 'Edit Profile',
-                                  text: 'Sign Out',
-                                  backgroundColor: mobileBackgroundColor,
-                                  textColor: primaryColor,
-                                  borderColor: Colors.grey,
-                                  function: () async {
-                                    await AuthMethods().signOut();
-                                    Navigator
-                                        .of(context)
-                                        .pushReplacement(
-                                           MaterialPageRoute(
-                                             builder: (context) => const LoginScreen(),
-                                           ),
-                                        );
-                                  },
-                                ):isFollowing ? FollowButton(
-                                  text: 'UnFollower',
-                                  backgroundColor: Colors.white,
-                                  textColor: Colors.black,
-                                  borderColor: Colors.grey,
-                                  function: () async {
-                                    await FirestoreMethod().followUser(
-                                        FirebaseAuth.instance.currentUser!.uid,
-                                        userData['uid']
-                                    );
-                                    setState(() {
-                                      isFollowing = false;
-                                      followers--;
-                                    });
-                                  },
-                                ):FollowButton(
-                                  text: 'Follower',
-                                  backgroundColor: Colors.blue,
-                                  textColor: Colors.white,
-                                  borderColor: Colors.blue,
-                                  function: () async {
-                                    await FirestoreMethod().followUser(
-                                        FirebaseAuth.instance.currentUser!.uid,
-                                        userData['uid']
-                                    );
-                                    setState(() {
-                                      isFollowing = true;
-                                      following++;
-                                    });
-                                  },
-                                ),
-                              ],
-                            ),
-                          ],
+                        children: [
+                          Row(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              buildStatColumn(postLen , "posts"),
+                              buildStatColumn(followers , "follower"),
+                              buildStatColumn(following , "following"),
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              FirebaseAuth.instance.currentUser!.uid == widget.uid ?
+                              FollowButton(
+                                //text: 'Edit Profile',
+                                text: 'Sign Out',
+                                backgroundColor: mobileBackgroundColor,
+                                textColor: primaryColor,
+                                borderColor: Colors.grey,
+                                function: () async {
+                                  await AuthMethods().signOut();
+                                  Navigator
+                                      .of(context)
+                                      .pushReplacement(
+                                    MaterialPageRoute(
+                                      builder: (context) => const LoginScreen(),
+                                    ),
+                                  );
+                                },
+                              ):isFollowing ? FollowButton(
+                                text: 'UnFollower',
+                                backgroundColor: Colors.white,
+                                textColor: Colors.black,
+                                borderColor: Colors.grey,
+                                function: () async {
+                                  await FirestoreMethod().followUser(
+                                      FirebaseAuth.instance.currentUser!.uid,
+                                      userData['uid']
+                                  );
+                                  setState(() {
+                                    isFollowing = false;
+                                    followers--;
+                                  });
+                                },
+                              ):FollowButton(
+                                text: 'Follower',
+                                backgroundColor: Colors.blue,
+                                textColor: Colors.white,
+                                borderColor: Colors.blue,
+                                function: () async {
+                                  await FirestoreMethod().followUser(
+                                      FirebaseAuth.instance.currentUser!.uid,
+                                      userData['uid']
+                                  );
+                                  setState(() {
+                                    isFollowing = true;
+                                    following++;
+                                  });
+                                },
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
                     ),
 
@@ -177,66 +198,234 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                   ),
                 ),
-              Container(
+                Container(
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.only(top:1),
                   child: Text(
 
-                      userData['description'] != null ?
-                          userData['description']
-                          :
-                          ''
+                    userData['description'] != null ?
+                    userData['description']
+                        :
+                    ''
                     ,
                   ),
                 ),
               ],
+              ),
             ),
-          ),
-          const Divider(),
-          FutureBuilder(
-              future: FirebaseFirestore
-                  .instance
-                  .collection('posts')
-                  .where('uid' , isEqualTo: widget.uid)
-                  .orderBy('datePublished' , descending: true)
-                  .orderBy('postId' , descending: false)
-                  .get()
-              ,
-              builder: (context , snapshot){
-                if(snapshot.connectionState == ConnectionState.waiting){
-                  return const Center(child: CircularProgressIndicator(),);
-                }
+            const Divider(),
+            FutureBuilder(
+                future: FirebaseFirestore
+                    .instance
+                    .collection('posts')
+                    .where('uid' , isEqualTo: widget.uid)
+                    .orderBy('datePublished' , descending: true)
+                    .orderBy('postId' , descending: false)
+                    .get()
+                ,
+                builder: (context , snapshot){
+                  if(snapshot.connectionState == ConnectionState.waiting){
+                    return const Center(child: CircularProgressIndicator(),);
+                  }
 
-                loggerNoStack.e(snapshot);
-                loggerNoStack.e(snapshot.data);
-                final documents = snapshot.data?.docs;
+                  loggerNoStack.e(snapshot);
+                  loggerNoStack.e(snapshot.data);
+                  final documents = snapshot.data?.docs;
 
-                return GridView.builder(
-                    shrinkWrap: true,
-                    itemCount: documents == null ? 0 : documents.length,
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 3,
-                        crossAxisSpacing: 5,
-                        mainAxisSpacing: 1.5,
-                        childAspectRatio: 1
-                    ),
-                    itemBuilder: (context , index){
-                      DocumentSnapshot snap = (snapshot.data! as dynamic).docs[index];
-                      return Container(
-                        child: Image(
-                          image: NetworkImage(
-                              (snap.data()! as dynamic)['postUrl']
+                  return GridView.builder(
+                      shrinkWrap: true,
+                      itemCount: documents == null ? 0 : documents.length,
+                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 3,
+                          crossAxisSpacing: 5,
+                          mainAxisSpacing: 1.5,
+                          childAspectRatio: 1
+                      ),
+                      itemBuilder: (context , index){
+                        DocumentSnapshot snap = (snapshot.data! as dynamic).docs[index];
+                        return Container(
+                          child: Image(
+                            image: NetworkImage(
+                                (snap.data()! as dynamic)['postUrl']
+                            ),
+                            fit: BoxFit.cover,
                           ),
-                          fit: BoxFit.cover,
-                        ),
-                      );
-                    }
-                );
+                        );
+                      }
+                  );
 
-              }),
-        ],
-      ),
-    );
+                }),
+          ],
+        ),
+      );
+    }else {
+      return Scaffold(
+        appBar: AppBar(
+          backgroundColor: mobileBackgroundColor,
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back_ios),
+            onPressed: () {
+              setState(() {
+                _page = 0;
+              });
+            },
+          ),
+          title: const Text('Notification Settings'),
+          centerTitle: false,
+        ),
+        body: Container(
+          padding: EdgeInsets.all(10),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Padding(
+                padding: EdgeInsets.all(10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      child:
+                      Center(
+                        child: Text(
+                            '회사공지사항',
+                            style: TextStyle(
+                              overflow: TextOverflow.ellipsis,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 25,
+                            ),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      child:
+                      CupertinoSwitch(
+                        value: isComp0Noti,
+                        activeColor: CupertinoColors.activeBlue,
+                        onChanged: (bool? value) {
+                          setState(() {
+                            isComp0Noti = value ?? false;
+                          });
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      child:
+                      const Center(
+                        child: Text(
+                          '회사공지사항',
+                          style: TextStyle(
+                            overflow: TextOverflow.ellipsis,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 25,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      child:
+                      CupertinoSwitch(
+                        value: isComp1Noti,
+                        activeColor: CupertinoColors.activeBlue,
+                        onChanged: (bool? value) {
+                          setState(() {
+                            isComp1Noti = value ?? false;
+                          });
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      child:
+                      const Center(
+                        child: Text(
+                          '회사공지사항',
+                          style: TextStyle(
+                            overflow: TextOverflow.ellipsis,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 25,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      child:
+                      CupertinoSwitch(
+                        value: isComp2Noti,
+                        activeColor: CupertinoColors.activeBlue,
+                        onChanged: (bool? value) {
+                          setState(() {
+                            isComp2Noti = value ?? false;
+                          });
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      child:
+                      const Center(
+                        child: Text(
+                          '회사공지사항',
+                          style: TextStyle(
+                            overflow: TextOverflow.ellipsis,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 25,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      child:
+                      CupertinoSwitch(
+                        value: isComp3Noti,
+                        activeColor: CupertinoColors.activeBlue,
+                        onChanged: (bool? value) {
+                          setState(() {
+                            isComp3Noti = value ?? false;
+                          });
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          )
+        )
+      );
+    }
+  }
+
+
+  @override
+  Widget build(BuildContext context) {
+    return isLoading ? const Center(child: CircularProgressIndicator(),) :
+        _pageController();
   }
 
   Column buildStatColumn(int num, String label) {
