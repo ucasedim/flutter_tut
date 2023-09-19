@@ -25,31 +25,17 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   if (kIsWeb) {
-    logger.w('kIsWeb Context Start');
-    try {
-      await Firebase.initializeApp(
-          options: DefaultFirebaseOptions.web,
-      );
-      logger.w('kIsWeb Context init after');
-      await FirebaseWebApi().initNotifications();
-    }catch(e){
-      logger.e('eeeeeeeeeerrrrrrrrrrrrrrrrrrrrrrrrrrresart');
-      Restart.restartApp();
-    }
-    logger.w('kIsWeb Context noti after');
+    logger.i('Platform Web Start');
+    await Firebase.initializeApp(options: DefaultFirebaseOptions.web,);
+    logger.w('Firebase init End');
+    await FirebaseWebApi().initNotifications();
+    logger.i('Firebase Noti End');
   } else {
     logger.w('kIsElse Context Start');
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
     await FirebaseApi().initNotifications();
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      logger.i("onMessage!!Lissten ${message.notification?.title}");
-      FlutterLocalNotification.showNotification(
-        '${message.notification?.title}',
-        '${message.notification?.body}',
-      );
-    });
   }
 
   try {
@@ -60,10 +46,8 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
+
   const MyApp({Key? key}) : super(key: key);
-
-
-
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {

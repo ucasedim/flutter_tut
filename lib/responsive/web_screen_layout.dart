@@ -153,7 +153,6 @@ Future<void> getPermission() async {
 }
 
 void messageListener(BuildContext context) {
-  print('messageListener in');
   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
     print('Got a message whilst in the foreground!');
     print('Message data: ${message.data}');

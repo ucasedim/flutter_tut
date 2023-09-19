@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_tut/screen/home_screen.dart';
@@ -23,6 +24,12 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool _isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    //messageListener(context);
+  }
 
   @override
   void dispose() {
@@ -165,4 +172,19 @@ class _LoginScreenState extends State<LoginScreen> {
       )),
     );
   }
+}
+
+void messageListener(BuildContext context) {
+  FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+    if (message.notification != null) {
+      print('Message also contained a notification: ${message.notification?.body}');
+      showDialog(
+          context: context,
+          builder: ((BuildContext context) {
+            return DynamicDialog(
+                title: message.notification?.title,
+                body: message.notification?.body);
+          }));
+    }
+  });
 }

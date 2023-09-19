@@ -16,7 +16,7 @@ firebase.initializeApp({
 const messaging = firebase.messaging();
 
 // Optional:
-
+/*
 messaging.onMessage(function(payload){
         console.log('onMessage: ', payload);
         var title = "고라니 서비스";
@@ -24,15 +24,15 @@ messaging.onMessage(function(payload){
                 body: payload.notification.body
         };
 
-        //var notification = new Notification(title, options);
+        var notification = new Notification(title, options);
 });
 
 messaging.onBackgroundMessage((m) => {
-  console.log("onBackgroundMessage", m);
-
-      const notificationTitle = m.notification.title;
-      const notificationOptions = {
+    console.log("onBackgroundMessage", m);
+    const notificationTitle = m.notification.title;
+    const notificationOptions = {
         body: m.notification.body,
-      };
-      //self.registration.showNotification(notificationTitle,notificationOptions);
+    };
+    self.registration.showNotification(notificationTitle,notificationOptions);
 });
+*/
