@@ -1,44 +1,26 @@
 {
   "project_info": {
-    "project_number": "949694906192",
-    "firebase_url": "https://instragram-tutc-default-rtdb.asia-southeast1.firebasedatabase.app",
-    "project_id": "instragram-tutc",
-    "storage_bucket": "instragram-tutc.appspot.com"
+    "project_number": "423719724937",
+    "project_id": "wowpress-beta",
+    "storage_bucket": "wowpress-beta.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:949694906192:android:b8b7a04d1013bd6ed53655",
+        "mobilesdk_app_id": "1:423719724937:android:0ccc2681d908ca48552358",
         "android_client_info": {
           "package_name": "com.example.flutter_tut"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "949694906192-p0j6999m1qmd9fd24ephklvss1qnaq0g.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyAUQazDrWwrNjG_TMh3JHMkJMmRjHQ7I9I"
+          "current_key": "AIzaSyCr2a5pUimvFqjnHKdiE-iWibh33MdKPpI"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "949694906192-p0j6999m1qmd9fd24ephklvss1qnaq0g.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "949694906192-5lj541dcre9q3qdrad1v7sntcnqbhrf9.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.example.untitled.RunnerTests"
-              }
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     }

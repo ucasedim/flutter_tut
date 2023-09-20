@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_tut/api/firebase_api.dart';
 import 'package:flutter_tut/utils/colors.dart';
 import 'package:flutter_tut/utils/global_variables.dart';
 import 'package:flutter_tut/utils/utils.dart';
@@ -33,6 +34,7 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout>
   void initState() {
     pageController = PageController();
     getUsername();
+    initMobileNotification();
     // 초기화
     FlutterLocalNotification.init();
 
@@ -62,6 +64,10 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout>
 
   void navigationTapped(int page){
     pageController.jumpToPage(page);
+  }
+
+  void initMobileNotification() async {
+    await FirebaseApi().initNotifications();
   }
 
   void getUsername() async {

@@ -1,7 +1,9 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_tut/api/firebase_web_api.dart';
 import 'package:flutter_tut/log/test_logger.dart';
 import 'package:flutter_tut/providers/user_provider.dart';
+import 'package:flutter_tut/utils/global_variables.dart';
 import 'package:logger/logger.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -28,14 +30,14 @@ void main() async {
     logger.i('Platform Web Start');
     await Firebase.initializeApp(options: DefaultFirebaseOptions.web,);
     logger.w('Firebase init End');
-    await FirebaseWebApi().initNotifications();
+    //await FirebaseWebApi().initNotifications();
     logger.i('Firebase Noti End');
   } else {
     logger.w('kIsElse Context Start');
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
-    await FirebaseApi().initNotifications();
+    //await FirebaseApi().initNotifications();
   }
 
   try {
@@ -59,7 +61,8 @@ class MyApp extends StatelessWidget {
           ],
           child: MaterialApp(
             debugShowCheckedModeBanner: false,
-            title: 'Instagram Clone',
+            navigatorKey: naviagatorState,
+            title: '와우프레스 알림이',
             theme: ThemeData.dark().copyWith(
               scaffoldBackgroundColor: mobileBackgroundColor,
             ),

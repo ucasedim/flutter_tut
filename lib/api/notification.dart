@@ -52,7 +52,11 @@ class FlutterLocalNotification {
         android: androidNotificationDetails,
         iOS: DarwinNotificationDetails(badgeNumber: 1));
 
+    print(title);
+    print(body);
+    print(notificationDetails);
     await flutterLocalNotificationsPlugin.show(
-        0, title, body, notificationDetails);
+        1, title, body, notificationDetails
+    );
   }
 }

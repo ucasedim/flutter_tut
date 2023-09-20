@@ -44,43 +44,38 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyAcWf7-fdnB2LdWBVMocLWsaeSIpA3NEiA',
-    appId: '1:949694906192:web:c74d351b841e7e3fd53655',
-    messagingSenderId: '949694906192',
-    projectId: 'instragram-tutc',
-    authDomain: 'instragram-tutc.firebaseapp.com',
-    databaseURL: 'https://instragram-tutc-default-rtdb.asia-southeast1.firebasedatabase.app',
-    storageBucket: 'instragram-tutc.appspot.com',
+    apiKey: 'AIzaSyALSZ92G6sdeaylidr1Z65a6QbroZKMyDE',
+    appId: '1:423719724937:web:ccc2b55b5e145c32552358',
+    messagingSenderId: '423719724937',
+    projectId: 'wowpress-beta',
+    authDomain: 'wowpress-beta.firebaseapp.com',
+    storageBucket: 'wowpress-beta.appspot.com',
+    measurementId: 'G-Q3PBDRW224',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyAUQazDrWwrNjG_TMh3JHMkJMmRjHQ7I9I',
-    appId: '1:949694906192:android:b8b7a04d1013bd6ed53655',
-    messagingSenderId: '949694906192',
-    projectId: 'instragram-tutc',
-    databaseURL: 'https://instragram-tutc-default-rtdb.asia-southeast1.firebasedatabase.app',
-    storageBucket: 'instragram-tutc.appspot.com',
+    apiKey: 'AIzaSyCr2a5pUimvFqjnHKdiE-iWibh33MdKPpI',
+    appId: '1:423719724937:android:0ccc2681d908ca48552358',
+    messagingSenderId: '423719724937',
+    projectId: 'wowpress-beta',
+    storageBucket: 'wowpress-beta.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyAHPw5aWgAQ4I83PIHV162V61W0miIMAjU',
-    appId: '1:949694906192:ios:dba0d1797e8432b6d53655',
-    messagingSenderId: '949694906192',
-    projectId: 'instragram-tutc',
-    databaseURL: 'https://instragram-tutc-default-rtdb.asia-southeast1.firebasedatabase.app',
-    storageBucket: 'instragram-tutc.appspot.com',
-    iosClientId: '949694906192-ognhs4q22lslc22gfeqopbnarve6t65d.apps.googleusercontent.com',
+    apiKey: 'AIzaSyC8mbwIQl85ykLekFjfg1RT1ikIq-wpB6s',
+    appId: '1:423719724937:ios:d9146305bcec0b6d552358',
+    messagingSenderId: '423719724937',
+    projectId: 'wowpress-beta',
+    storageBucket: 'wowpress-beta.appspot.com',
     iosBundleId: 'com.example.flutterTut',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyAHPw5aWgAQ4I83PIHV162V61W0miIMAjU',
-    appId: '1:949694906192:ios:84b3e964ec372e5dd53655',
-    messagingSenderId: '949694906192',
-    projectId: 'instragram-tutc',
-    databaseURL: 'https://instragram-tutc-default-rtdb.asia-southeast1.firebasedatabase.app',
-    storageBucket: 'instragram-tutc.appspot.com',
-    iosClientId: '949694906192-p0v4sfh9i2ru8ocodc0hu0ti7c39ptlp.apps.googleusercontent.com',
+    apiKey: 'AIzaSyC8mbwIQl85ykLekFjfg1RT1ikIq-wpB6s',
+    appId: '1:423719724937:ios:032a533c3ade3232552358',
+    messagingSenderId: '423719724937',
+    projectId: 'wowpress-beta',
+    storageBucket: 'wowpress-beta.appspot.com',
     iosBundleId: 'com.example.flutterTut.RunnerTests',
   );
 }

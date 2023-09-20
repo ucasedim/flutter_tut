@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "wowpress-beta",
+  "private_key_id": "0794b1b6fa8ae824576d524c6aef80e4e1e1ca39",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDRhtA6uryBjkxe\nwIBpH9HTbSsuA3ck02AZxtZygzXnjfDAmjLHJ3/DLoCVEtAEaufAnxUpRsUA3H2d\n/yaYKmzH4n81hAJMIomuEYyRpAl/0EJWdMfLqGYgLTIrBgJkEbJWol7qooz999S2\nBpcfc5CL+9G+Yoztk6ec6r9Ax2X/DV53HBvq8+uqGO6nnNJLnbcmJwfI/CrFCSkB\nABPnJQ9kHONX0o2zVMceAeW5ZGnB8CEsQZSUAoq1bpAw+AeaRKwNfO1zTrYA3/IW\niikL+Ib1eFrywvi1EKnLedTwhWaYJBOyaTIMAqczcux9v1fX31Z+0iBNFTWq2VtM\nUW9UoKAjAgMBAAECggEAA3A+b5BL8qZWq4FmOhNrGpiiikVFScXsQFAKieOMWWnz\nZv3A0pLb3mSfeJLP9hqZBgi2TLCcIAj+SL78r6eWlGsrokGx1fUFJGWmVGeIPmA5\nDnkpJDb1whZrydf15xWBQzmz7A7R2IMeKwSNq1b2qs1toj20yVtQd1tE2zfKfTZ/\n1p3BVRtq0KhgpIZI0aUXumf9OYZMv/Ilhf+BktNKH5JgD85UkX4xdpspjrp3gkL+\nfAfdIHu0Wp8eMbNPfvD89SXwkKI8otGBjYUR/J9nhVFV4ERTDFvDq/MtFsv17bb4\nWpLIkvmXNwhU47c/ect+TeaRfw5vTBlVWvdzYSIwdQKBgQD1Z2p6sP4tVm36vd0f\nHiJEL3S8NZJN+ais7TLKo/gupHYYO9e2p+wE4rb7rh5uY4RBSZg2U382LcdiMRno\nEhngdGyjB59GwuHztvO6fRI7jOkUlQI3mNf/7z65br4ozOXddqoZMO755b3Ez+Ax\nuI7ii8vIormpIVSpEuBMGxqCZwKBgQDaktNStazs1/dJ3WOAQZ3f3LMY31bBPl6W\ndtCZ/oldRU4Yi2csTQr8W8DwBVEc4GJp76uXiMt93opNlN9itxAKhiovYwteVDbL\nT19TnXH7vCRakwYQkX7Bfj7oGWQMeu6xpBblBeIAtAyHtmhyKY6OCefmNwyO6NFa\nM4mSe6325QKBgQCzZFnuPpxQQDI9bbXLHZgnCBnpy6+b2Ll5UBwlDiBK2GaL6JMU\nL0TVfXYOHYaZY542q7ndXMRNssFiAkrR3wmTjwgrVVMVwzixlDgvR2agqa1pIlRw\nmAauTRIpM89GvCH89tX5fE/11gAXc26MakHpUhAyJuJZxMfCoM3eVKHYWQKBgE18\nGYBLuXbpBNhhrIFuQYp30eHyYu30r1GF42OEMawoAox+9t9knI1j9ZzhNaUYAqtt\ndJYuv3zqpHrmWN7E6OHiOBg+c2xITHh8td2NhjfotbaKQm8jNR1hJOng/m/SMMY2\n1orwL/Nx4LNHvfUiuE+wQU6Cm2gaLwVcGdwdDknlAoGBAIRVOuwQ8ej5z+ELsHiJ\n6hPGcUr31Emgpbjg6U+/8E4G90LmWeOmuCHLDrG7R/RB0QVvCYV+YH2gokwVNDI4\n/rNiQB6zIA0zN3C7oV0nyWQ/izDQoSbsisRIMLtRD2aAOglWk+dLKvxQGzsj6xZf\nHdQZWLf6gDcZ1cooBAdYdNq2\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-t6lp3@wowpress-beta.iam.gserviceaccount.com",
+  "client_id": "110089538139202589037",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-t6lp3%40wowpress-beta.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

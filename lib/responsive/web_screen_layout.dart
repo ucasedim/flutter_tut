@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:flutter_tut/api/firebase_web_api.dart';
 import 'package:flutter_tut/utils/colors.dart';
 import 'package:flutter_tut/utils/global_variables.dart';
 
@@ -28,6 +29,7 @@ class _WebScreenLayoutState extends State<WebScreenLayout> {
     super.initState();
     pageController = PageController();
     getUsername();
+    initWebNotification();
     /* webtoken */
     //getPermission();
     //messageListener(context);
@@ -38,6 +40,10 @@ class _WebScreenLayoutState extends State<WebScreenLayout> {
     setState(() {
       _page = page;
     });
+  }
+
+  void initWebNotification() async {
+    await FirebaseWebApi().initNotifications();
   }
 
   void getUsername() async {
@@ -170,3 +176,5 @@ void messageListener(BuildContext context) {
     }
   });
 }
+
+
