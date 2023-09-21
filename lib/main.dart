@@ -2,6 +2,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_tut/api/firebase_web_api.dart';
 import 'package:flutter_tut/log/test_logger.dart';
+import 'package:flutter_tut/providers/layout_widget_provider.dart';
 import 'package:flutter_tut/providers/user_provider.dart';
 import 'package:flutter_tut/utils/global_variables.dart';
 import 'package:logger/logger.dart';
@@ -58,6 +59,9 @@ class MyApp extends StatelessWidget {
             ChangeNotifierProvider(
               create: (_) => UserProvider(),
             ),
+            ChangeNotifierProvider(
+              create: (_) => LayoutWidgetProvider(),
+            ),
           ],
           child: MaterialApp(
             debugShowCheckedModeBanner: false,
@@ -78,10 +82,11 @@ class MyApp extends StatelessWidget {
                   loggerNoStack.i(snapshot.hasData);
 
                   if (snapshot.hasData) {
+
                     return const ResponsiveLayout(
-                      mobileScreenLayout: MobileScreenLayout(),
-                      webScreenLayout: WebScreenLayout(),
-                    );
+                        mobileScreenLayout: MobileScreenLayout(),
+                        webScreenLayout: WebScreenLayout(),
+                      );
                   } else if (snapshot.hasError) {
                     return Center(
                       child: Text('${snapshot.error}'),

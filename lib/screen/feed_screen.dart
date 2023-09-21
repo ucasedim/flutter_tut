@@ -25,13 +25,15 @@ class FeedScreen extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: (){},
-            icon: Icon(Icons.message_outlined
-            ),
+            icon: Icon(Icons.message_outlined),
           ),
         ],
       ),
       body: StreamBuilder(
-          stream: FirebaseFirestore.instance.collection('posts').snapshots(),
+          stream: FirebaseFirestore.instance
+              .collection('posts')
+              .orderBy('datePublished' , descending: true)
+              .snapshots(),
           builder: (context, AsyncSnapshot<QuerySnapshot<Map<String,dynamic>>> snapshot){
             if(snapshot.connectionState == ConnectionState.waiting){
               return const Center(

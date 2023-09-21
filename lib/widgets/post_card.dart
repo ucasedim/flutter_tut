@@ -144,10 +144,9 @@ class _PostCardState extends State<PostCard> {
               alignment: Alignment.center,
               children: [
                 SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.35,
+                  height: MediaQuery.of(context).size.height * 0.5,
                   width: double.infinity,
-                  //child: Image.network('https://images.unsplash.com/photo-1606041008023-472dfb5e530f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1976&q=80',
-                  child: Image.network(widget.snap['postUrl'], fit: BoxFit.cover,),
+                  child: Image.network(widget.snap['postUrl'], fit: BoxFit.contain,),
                 ),
                 AnimatedOpacity(
                   duration: const Duration(milliseconds: 200),

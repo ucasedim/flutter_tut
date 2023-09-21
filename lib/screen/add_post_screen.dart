@@ -1,9 +1,14 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_tut/log/test_logger.dart';
+import 'package:flutter_tut/providers/layout_widget_provider.dart';
 import 'package:flutter_tut/providers/user_provider.dart';
 import 'package:flutter_tut/resources/firestore_mehtod.dart';
+import 'package:flutter_tut/responsive/web_screen_layout.dart';
+import 'package:flutter_tut/screen/feed_screen.dart';
 import 'package:flutter_tut/utils/colors.dart';
+import 'package:flutter_tut/utils/global_variables.dart';
 import 'package:flutter_tut/utils/utils.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
@@ -46,9 +51,8 @@ class _AddPostScreenState extends State<AddPostScreen> {
           setState(() {
             _isLoading = false;
           });
-
           clearImage();
-
+          postSuccess();
         }else{
           showSnackBar(res, context);
           setState(() {
@@ -76,16 +80,21 @@ class _AddPostScreenState extends State<AddPostScreen> {
     showSnackBar('file = null', context);
   }
 
+  void postSuccess(){
+    loggerNoStack.e("getLayoutPage : ${LayoutWidgetProvider().getLayoutPage()}");
+    LayoutWidgetProvider().setLayoutPage(0);
+  }
+
   _selectImage(BuildContext context ) async{
     return showDialog(
         context: context,
         builder: (context) {
           return SimpleDialog(
-            title: const Text('Create a Post'),
+            title: const Text('작성하기'),
             children: [
               SimpleDialogOption(
                 padding: const EdgeInsets.all(20),
-                child: const Text('Take a Photo'),
+                child: const Text('카메라'),
                 onPressed: () async{
                   Navigator.of(context).pop();
                   Uint8List file = await pickImage(ImageSource.camera,);
@@ -96,7 +105,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
               ),
               SimpleDialogOption(
                 padding: const EdgeInsets.all(20),
-                child: const Text('choose from galley'),
+                child: const Text('갤러리'),
                 onPressed: () async{
                   Navigator.of(context).pop();
                   Uint8List file = await pickImage(ImageSource.gallery);
@@ -107,7 +116,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
               ),
               SimpleDialogOption(
                 padding: const EdgeInsets.all(20),
-                child: const Text('Cancel'),
+                child: const Text('취소'),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
@@ -124,10 +133,28 @@ class _AddPostScreenState extends State<AddPostScreen> {
   Widget build(BuildContext context) {
 
     final User user = Provider.of<UserProvider>(context).getUser;
-    return _file == null? Center(
-      child: IconButton(
-        icon: const Icon(Icons.upload),
-        onPressed: ()=>_selectImage(context),
+    return _file == null?
+    GestureDetector(
+      onTap: ()=> _selectImage(context),
+      child: Center(
+        child: Container(
+          child:
+              Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      IconButton(
+                        icon: const Icon(Icons.upload),
+                        onPressed: ()=>_selectImage(context),
+                      ),
+                      Text(
+                          '업로드하기',
+                      ),
+                    ],
+                  ),
+              ),
+        ),
       ),
     )
     : Scaffold(
@@ -137,7 +164,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
           icon: const Icon(Icons.arrow_back),
           onPressed: clearImage,
         ),
-        title: const Text('Post to'),
+        title: const Text('작성하기'),
         centerTitle: false,
         actions: [
           TextButton(
@@ -148,7 +175,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
                             user.photoUrl
                         ),
                     child: const Text(
-                'POST',
+                '게시하기',
                 style: TextStyle(
                     color: Colors.blueAccent,
                     fontWeight: FontWeight.bold,
@@ -162,47 +189,62 @@ class _AddPostScreenState extends State<AddPostScreen> {
           _isLoading ?
           const LinearProgressIndicator( color: Colors.blueAccent,)
               : Padding(padding: EdgeInsets.only(top:0)),
-          const Divider(),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              CircleAvatar(
-                backgroundImage: NetworkImage(
-                  user.photoUrl,
-                ),
-              ),
-              SizedBox(
-                width: MediaQuery.of(context).size.width*0.3,
-                child: TextField(
-                  controller: _descriptionController,
-                  decoration: const InputDecoration(
-                    hintText: 'Write a caption...',
-                    border: InputBorder.none
-                  ),
-                  maxLines: 8,
-                ),
-              ),
-              SizedBox(
-                height: 45,
-                width: 45,
-                child: AspectRatio(
-                  aspectRatio: 487 / 451,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image : MemoryImage(_file!),
-                        fit: BoxFit.fill,
-                        alignment: FractionalOffset.topCenter,
+          IntrinsicHeight(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                /*
+                Container(
+                  child: Center(
+                    child: CircleAvatar(
+                      backgroundImage: NetworkImage(
+                        user.photoUrl,
                       ),
                     ),
                   ),
                 ),
-              ),
-              const Divider(
-
-              ),
-            ],
+                */
+                Container(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Center(
+                      child: SizedBox(
+                        height: MediaQuery.of(context).size.width*0.25,
+                        width: MediaQuery.of(context).size.width*0.25,
+                        child: AspectRatio(
+                          aspectRatio: 487 / 451,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(),
+                              image: DecorationImage(
+                                image : MemoryImage(_file!),
+                                fit: BoxFit.fill,
+                                alignment: FractionalOffset.center,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Container(
+                  height: MediaQuery.of(context).size.height*0.65,
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width*0.65,
+                    child: TextField(
+                      controller: _descriptionController,
+                      decoration: const InputDecoration(
+                        hintText: '글을 작성해주세요',
+                        border: InputBorder.none,
+                      ),
+                      maxLines: 100,
+                    ),
+                  ),
+                ),
+              ],
+            ),
           )
         ],
       ),
