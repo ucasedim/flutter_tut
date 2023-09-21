@@ -1,20 +1,34 @@
 import 'package:flutter_tut/log/test_logger.dart';
-
-import '../model/user.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_tut/resources/auth_methods.dart';
 
+class LayoutWidgetProvider{
 
-class LayoutWidgetProvider with ChangeNotifier{
   int _layoutPage = 0;
+  int _page = 0;
+
+  // ==============================================
+  // 뷰 통지를 위한 콜백 함수
+  // ==============================================
+
+  // 위젯에 전달하는 콜백
+  void Function() onUpdated = () {};
+  void Function(String) onAlert = (msg) {};
+
+  onPageChange(page) async {
+    logger.i(page);
+    _page = page;
+    logger.i(_page);
+    onUpdated();
+  }
+
 
   int getLayoutPage() {
-    return this._layoutPage;
+    return _page;
   }
 
   Future<void>setLayoutPage(int layoutPage) async{
     this._layoutPage = layoutPage;
-    notifyListeners();
+    //notifyListeners();
   }
 
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tut/api/firebase_api.dart';
+import 'package:flutter_tut/providers/layout_widget_provider.dart';
 import 'package:flutter_tut/providers/user_provider.dart';
 import 'package:flutter_tut/responsive/mobile_screen_layout.dart';
 import 'package:flutter_tut/responsive/web_screen_layout.dart';
@@ -36,13 +37,13 @@ class _ResponsiveLayout extends State<ResponsiveLayout>{
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
-      builder: (context, constraints) {
-        if (constraints.maxWidth > webScreenSize) {
-          return WebScreenLayout();
-        }
-        return MobileScreenLayout();
-        //mobileScreen
-      },
-    );
+        builder: (context, constraints) {
+          if (constraints.maxWidth > webScreenSize) {
+            return WebScreenLayout();
+          }
+          return MobileScreenLayout();
+          //mobileScreen
+        },
+      );
   }
 }

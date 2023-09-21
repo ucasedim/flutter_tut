@@ -26,6 +26,8 @@ class MobileScreenLayout extends StatefulWidget {
 class _MobileScreenLayoutState extends State<MobileScreenLayout>
     with WidgetsBindingObserver {
 
+  LayoutWidgetProvider lp = LayoutWidgetProvider();
+
   int _page = 0;
   late PageController pageController;
   String username = "";
@@ -38,7 +40,7 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout>
     initMobileNotification();
     // 초기화
     FlutterLocalNotification.init();
-
+    //lp.onAlert = (msg) => context.showAlert(msg);
     // 3초 후 권한 요청
     Future.delayed(
         const Duration(seconds: 3),
@@ -46,6 +48,8 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout>
     );
 
     WidgetsBinding.instance.addObserver(this);
+    lp.onUpdated = () => setState((){logger.w("setstate call!!!");});
+    lp.onAlert('1234');
   }
 
   @override
@@ -63,6 +67,9 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout>
 
   void navigationTapped(int page){
     pageController.jumpToPage(page);
+    setState(() {
+
+    });
   }
 
   void initMobileNotification() async {
@@ -81,41 +88,31 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout>
   }
 
   void onPageChanged(int page){
-    LayoutWidgetProvider().setLayoutPage(page);
     logger.w(_page);
     setState(() {
       _page = page;
     });
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
-    try {
-      LayoutWidgetProvider vm = context.read();
 
-      print(vm.getLayoutPage());
-      print(vm.getLayoutPage());
-      print(vm.getLayoutPage());
-      print(vm.getLayoutPage());
-      print(vm.getLayoutPage());
-      print(vm.getLayoutPage());
-      print(vm.getLayoutPage());
-      print(vm.getLayoutPage());
-      print(vm.getLayoutPage());
-      print(vm.getLayoutPage());
-      print(vm.getLayoutPage());
+      logger.w(lp.getLayoutPage());
+      logger.w(lp.getLayoutPage());
+      logger.w(lp.getLayoutPage());
+      logger.w(lp.getLayoutPage());
       model.User user = Provider
           .of<UserProvider>(context)
           .getUser;
-    } catch(e){
-      //showSnackBar(e.toString(), context);
-    }
+
     return Scaffold(
         body:PageView(
           children: homeScreenItems,
           physics: const NeverScrollableScrollPhysics(),
           controller: pageController,
-          onPageChanged: onPageChanged,
+          //onPageChanged: onPageChanged,
+          onPageChanged: lp.onPageChange,
         ),
         bottomNavigationBar: CupertinoTabBar(
           backgroundColor: mobileBackgroundColor,
@@ -123,7 +120,7 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout>
             BottomNavigationBarItem(
               icon: Icon(
                 Icons.home,
-                color: _page == 0 ? primaryColor : secondaryColor,
+                color: lp.getLayoutPage() == 0 ? primaryColor : secondaryColor,
               ),
               label: '',
                 backgroundColor: primaryColor,
@@ -131,7 +128,7 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout>
             BottomNavigationBarItem(
               icon: Icon(
                 Icons.search,
-                color: _page == 1 ? primaryColor : secondaryColor,
+                color: lp.getLayoutPage() == 1 ? primaryColor : secondaryColor,
               ),
               label: '',
               backgroundColor: primaryColor,
@@ -139,7 +136,7 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout>
             BottomNavigationBarItem(
               icon: Icon(
                 Icons.add_circle,
-                color: _page == 2 ? primaryColor : secondaryColor,
+                color: lp.getLayoutPage() == 2 ? primaryColor : secondaryColor,
               ),
               label: '',
               backgroundColor: primaryColor,
@@ -147,7 +144,7 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout>
             BottomNavigationBarItem(
               icon: Icon(
                 Icons.favorite,
-                color: _page == 3 ? primaryColor : secondaryColor,
+                color: lp.getLayoutPage() == 3 ? primaryColor : secondaryColor,
               ),
               label: '',
               backgroundColor: primaryColor,
@@ -155,7 +152,7 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout>
             BottomNavigationBarItem(
               icon: Icon(
                 Icons.person,
-                color: _page == 4 ? primaryColor : secondaryColor,
+                color: lp.getLayoutPage() == 4 ? primaryColor : secondaryColor,
               ),
               label: '',
               backgroundColor: primaryColor,

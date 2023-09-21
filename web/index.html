@@ -36,54 +36,40 @@
   <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-messaging.js"></script>
   <script>
     // The value below is injected by flutter build, do not touch.
-    const serviceWorkerVersion = '1';
+    const serviceWorkerVersion = null;
   </script>
   <!-- This script adds the flutter initialization JS code -->
   <script src="flutter.js" defer></script>
 </head>
 <body>
   <script type="text/javascript">
-
+  /*
     const firebaseConfig = {
-        apiKey: 'AIzaSyALSZ92G6sdeaylidr1Z65a6QbroZKMyDE',
-        appId: '1:423719724937:web:ccc2b55b5e145c32552358',
-        messagingSenderId: '423719724937',
-        projectId: 'wowpress-beta',
-        authDomain: 'wowpress-beta.firebaseapp.com',
-        storageBucket: 'wowpress-beta.appspot.com',
-        measurementId: 'G-Q3PBDRW224',
+      apiKey: 'AIzaSyAcWf7-fdnB2LdWBVMocLWsaeSIpA3NEiA',
+      appId: '1:949694906192:web:c74d351b841e7e3fd53655',
+      messagingSenderId: '949694906192',
+      projectId: 'instragram-tutc',
+      authDomain: 'instragram-tutc.firebaseapp.com',
+      databaseURL: 'https://instragram-tutc-default-rtdb.asia-southeast1.firebasedatabase.app',
+      storageBucket: 'instragram-tutc.appspot.com',
     };
-
-    firebase.initializeApp(firebaseConfig);
-
-try{
-     window.addEventListener('load', function(ev) {
-        //var loading = document.querySelector('#loading');
-        //loading.textContent = "Loading entrypoint...";
-        // Download main.dart.js
-        _flutter.loader.loadEntrypoint({
-          serviceWorker: {
-            serviceWorkerVersion: serviceWorkerVersion,
-          },
-          onEntrypointLoaded: async function(engineInitializer) {
-            //loading.textContent = "Initializing engine...";
-            let appRunner = await engineInitializer.initializeEngine({renderer:"html"});
-
-            //loading.textContent = "Running app...";
-            await appRunner.runApp();
-          }
-          /*
-          onEntrypointLoaded: async function(engineInitializer) {
-            await engineInitializer.initializeEngine({renderer:"html"}).then(function(appRunner) {
-              appRunner.runApp();
-            });
-          }
-          */
-        });
+  */
+    //firebase.initializeApp(firebaseConfig);
+  </script>
+  <script>
+    window.addEventListener('load', function(ev) {
+      // Download main.dart.js
+      _flutter.loader.loadEntrypoint({
+        serviceWorker: {
+          serviceWorkerVersion: serviceWorkerVersion,
+        },
+        onEntrypointLoaded: function(engineInitializer) {
+          engineInitializer.initializeEngine({renderer:"html"}).then(function(appRunner) {
+            appRunner.runApp();
+          });
+        }
       });
-      }catch(e){
-      location.reload();
-      }
+    });
   </script>
 </body>
 </html>
