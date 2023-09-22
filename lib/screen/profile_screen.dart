@@ -124,9 +124,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             mainAxisSize: MainAxisSize.max,
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              buildStatColumn(postLen , "posts"),
-                              buildStatColumn(followers , "follower"),
-                              buildStatColumn(following , "following"),
+                              buildStatColumn(postLen , "게시물"),
+                              buildStatColumn(followers , "팔로워"),
+                              buildStatColumn(following , "팔로잉"),
                             ],
                           ),
                           Row(
@@ -237,7 +237,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       itemCount: documents == null ? 0 : documents.length,
                       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 3,
-                          crossAxisSpacing: 5,
+                          crossAxisSpacing: 1.5,
                           mainAxisSpacing: 1.5,
                           childAspectRatio: 1
                       ),
@@ -439,7 +439,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         Container(
           margin: const EdgeInsets.only(top:4),
           child: Text(label.toString(),
-            style: TextStyle(fontSize: 15, fontWeight: FontWeight.w400 , color: Colors.grey),
+            style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Colors.grey),
           ),
         ),
       ],

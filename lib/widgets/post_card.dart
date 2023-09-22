@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_tut/log/test_logger.dart';
+import 'package:flutter_tut/providers/layout_widget_provider.dart';
 import 'package:flutter_tut/providers/user_provider.dart';
 import 'package:flutter_tut/resources/firestore_mehtod.dart';
 import 'package:flutter_tut/screen/comment_screeen.dart';
@@ -14,6 +16,7 @@ import 'package:provider/provider.dart';
 import '../model/user.dart';
 
 class PostCard extends StatefulWidget {
+
   final snap;
   const PostCard({
     super.key,
@@ -25,7 +28,7 @@ class PostCard extends StatefulWidget {
 }
 
 class _PostCardState extends State<PostCard> {
-
+  LayoutWidgetProvider lp = LayoutWidgetProvider();
   bool isLikeAnimating = false;
   int commentLen = 0;
 
@@ -34,6 +37,7 @@ class _PostCardState extends State<PostCard> {
   void initState() {
     super.initState();
     getComments();
+    lp.onUpdated = () =>setState(() {});
   }
 
   void getComments() async{
@@ -41,11 +45,8 @@ class _PostCardState extends State<PostCard> {
       QuerySnapshot _snap = await FirebaseFirestore.instance.collection('posts')
           .doc(widget.snap['postId']).collection('comments')
           .get();
-
       commentLen = _snap.docs.length;
-
-      showSnackBar(commentLen.toString() , context);
-
+      //showSnackBar(commentLen.toString() , context);
     }catch(err){
       showSnackBar(err.toString(), context);
     }
@@ -206,7 +207,12 @@ class _PostCardState extends State<PostCard> {
                   child: Align(
                     alignment: Alignment.bottomRight,
                     child: IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                          logger.e("setPage!! PostCard!");
+                          lp.setPage(1);
+                          lp.getPageController().jumpToPage(1);
+                          //lp.setPage(1);
+                        },
                       icon: Icon(Icons.bookmark),
                     ),
                   )
@@ -245,10 +251,11 @@ class _PostCardState extends State<PostCard> {
                           text: widget.snap['username'],
                           style: const TextStyle(fontWeight: FontWeight.bold,),
                         ),
+                        WidgetSpan(child: SizedBox(width: 10,)),
                         TextSpan(
                           text: widget.snap['description'],
                           style: const TextStyle(fontWeight: FontWeight.bold,),
-                        )
+                        ),
                       ]
                     ),
                   ),
@@ -256,7 +263,7 @@ class _PostCardState extends State<PostCard> {
 
                 InkWell(
                   child: Container(
-                    child: Text('View all $commentLen comments ' , style: const TextStyle(
+                    child: Text('댓글 $commentLen 개 모두보기 ' , style: const TextStyle(
                       fontSize: 16,
                       color: secondaryColor,
                     ),),
@@ -266,7 +273,7 @@ class _PostCardState extends State<PostCard> {
                 Container(
                   padding: const EdgeInsets.symmetric( vertical: 4 ),
                   child: Text(
-                    DateFormat.yMMMd().format( widget.snap['datePublished'] == null ? DateTime.now() : widget.snap['datePublished'].toDate() ),
+                    DateFormat('y년 M월 d일').format( widget.snap['datePublished'] == null ? DateTime.now() : widget.snap['datePublished'].toDate() ),
                     style: const TextStyle(
                       fontSize: 16,
                       color: secondaryColor,

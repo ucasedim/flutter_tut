@@ -1,6 +1,7 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_tut/main.dart';
 import 'package:flutter_tut/screen/home_screen.dart';
 import 'package:flutter_tut/screen/signup_screen.dart';
 import 'package:flutter_tut/utils/colors.dart';
@@ -29,6 +30,8 @@ class _LoginScreenState extends State<LoginScreen> {
   void initState() {
     super.initState();
     //messageListener(context);
+    _emailController.text = 'wow160@wowpress.co.kr';
+    _passwordController.text = '123456';
   }
 
   @override
@@ -57,12 +60,19 @@ class _LoginScreenState extends State<LoginScreen> {
         showSnackBar(res, context);
         Navigator.of(context).push(
           MaterialPageRoute(
+            builder: (context) => MyApp(),
+          ),
+        );
+        /*
+        Navigator.of(context).push(
+          MaterialPageRoute(
             builder: (context) => const ResponsiveLayout(
               mobileScreenLayout: MobileScreenLayout(),
               webScreenLayout: WebScreenLayout(),
             ),
           ),
         );
+        */
     }else{
       showSnackBar(res, context);
     }
@@ -91,10 +101,11 @@ class _LoginScreenState extends State<LoginScreen> {
               flex: 2,
             ),
             //svg image
-            const Image(
-                image: AssetImage('assets/wow_logo.png'),
-              width: 160,
-                height: 64,
+            SvgPicture.asset(
+              'assets/ic_wow_logo.svg',
+              color: primaryColor,
+              height: 64,
+              fit: BoxFit.cover,
             ),
             SvgPicture.asset(
               'assets/android-color-svgrepo-com.svg',
@@ -106,7 +117,7 @@ class _LoginScreenState extends State<LoginScreen> {
               height: 24,
             ),
             TextFieldInput(
-              hintText: 'Enter your Email',
+              hintText: '아이디@wowpress.co.kr',
               textInputType: TextInputType.emailAddress,
               textEditingController: _emailController,
             ),
@@ -114,7 +125,7 @@ class _LoginScreenState extends State<LoginScreen> {
               height: 24,
             ),
             TextFieldInput(
-              hintText: ' Enter your Password',
+              hintText: '비밀번호',
               textInputType: TextInputType.text,
               textEditingController: _passwordController,
               isPass: true,
@@ -129,7 +140,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ? const Center(
                         child: CircularProgressIndicator(color: primaryColor),
                       )
-                    : const Text('Login1'),
+                    : const Text('Login'),
                 width: double.infinity,
                 alignment: Alignment.center,
                 padding: const EdgeInsets.symmetric(vertical: 12),
@@ -172,19 +183,4 @@ class _LoginScreenState extends State<LoginScreen> {
       )),
     );
   }
-}
-
-void messageListener(BuildContext context) {
-  FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-    if (message.notification != null) {
-      print('Message also contained a notification: ${message.notification?.body}');
-      showDialog(
-          context: context,
-          builder: ((BuildContext context) {
-            return DynamicDialog(
-                title: message.notification?.title,
-                body: message.notification?.body);
-          }));
-    }
-  });
 }

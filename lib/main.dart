@@ -24,28 +24,13 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   if (kIsWeb) {
-
-    logger.w('kIsWeb Context Start');
-
-    await Firebase.initializeApp(
-        options: DefaultFirebaseOptions.web,
-    );
-
-    await FirebaseWebApi().initNotifications();
-
+    logger.i("app is Web Start");
+    await Firebase.initializeApp(options: DefaultFirebaseOptions.web,);
+    //await FirebaseWebApi().initNotifications();
   } else {
-    logger.w('kIsElse Context Start');
-    await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
-    );
-    await FirebaseApi().initNotifications();
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      logger.i("onMessage!!Lissten ${message.notification?.title}");
-      FlutterLocalNotification.showNotification(
-        '${message.notification?.title}',
-        '${message.notification?.body}',
-      );
-    });
+    logger.i("app is not Web Start");
+    await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform,);
+    //await FirebaseApi().initNotifications();
   }
 
   runApp(const MyApp());
@@ -65,25 +50,20 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(
             create: (_) => UserProvider(),
           ),
+          ChangeNotifierProvider(
+            create: (_) => LayoutWidgetProvider(),
+          ),
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: true,
-          title: 'Instagram Clone',
+          title: 'wowpress noti',
           theme: ThemeData.dark().copyWith(
             scaffoldBackgroundColor: mobileBackgroundColor,
           ),
           home: StreamBuilder(
             stream: FirebaseAuth.instance.authStateChanges(),
             builder: (context , snapshot){
-              //loggerNoStack.i('snapshot.connectionState : ');
-              //loggerNoStack.i(snapshot.connectionState);
-              //loggerNoStack.i('ConnectionState.active');
-              //loggerNoStack.i(ConnectionState.active);
               if(snapshot.connectionState == ConnectionState.active) {
-
-                loggerNoStack.i('snapshot.hasData');
-                loggerNoStack.i(snapshot.hasData);
-
                 if (snapshot.hasData) {
                   return const ResponsiveLayout(
                       mobileScreenLayout: MobileScreenLayout(),
@@ -108,15 +88,6 @@ class MyApp extends StatelessWidget {
 
             },
           ),
-          //LoginScreen(),
-
-          /*
-          ResponsiveLayout(
-            mobileScreenLayout: MobileScreenLayout(),
-            webScreenLayout: WebScreenLayout(),
-          )
-          */
-
         )
       );
   }

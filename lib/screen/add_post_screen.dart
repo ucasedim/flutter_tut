@@ -5,6 +5,7 @@ import 'package:flutter_tut/log/test_logger.dart';
 import 'package:flutter_tut/providers/layout_widget_provider.dart';
 import 'package:flutter_tut/providers/user_provider.dart';
 import 'package:flutter_tut/resources/firestore_mehtod.dart';
+import 'package:flutter_tut/responsive/mobile_screen_layout.dart';
 import 'package:flutter_tut/responsive/web_screen_layout.dart';
 import 'package:flutter_tut/screen/feed_screen.dart';
 import 'package:flutter_tut/utils/colors.dart';
@@ -24,10 +25,18 @@ class AddPostScreen extends StatefulWidget {
 
 class _AddPostScreenState extends State<AddPostScreen> {
 
+  LayoutWidgetProvider lp = LayoutWidgetProvider();
+
   Uint8List? _file;
   final TextEditingController _descriptionController = TextEditingController();
   bool _isLoading = false;
 
+
+  @override
+  void initState() {
+    super.initState();
+    lp.onUpdated = () => setState((){logger.w("setstate call!!! addPost");});
+  }
 
   void postImage(
       String uid,
@@ -47,7 +56,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
 
 
         if(res == 'success'){
-          showSnackBar('Possted!', context);
+          showSnackBar('게시 완료!', context);
           setState(() {
             _isLoading = false;
           });
@@ -81,8 +90,10 @@ class _AddPostScreenState extends State<AddPostScreen> {
   }
 
   void postSuccess(){
-    loggerNoStack.e("getLayoutPage : ${LayoutWidgetProvider().getLayoutPage()}");
-    LayoutWidgetProvider().setLayoutPage(0);
+    loggerNoStack.e("getLayoutPage : ${LayoutWidgetProvider().getPage()}");
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => MobileScreenLayout()
+    ));
   }
 
   _selectImage(BuildContext context ) async{

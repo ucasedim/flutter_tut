@@ -1,34 +1,35 @@
 import 'package:flutter_tut/log/test_logger.dart';
 import 'package:flutter/material.dart';
 
-class LayoutWidgetProvider{
+class LayoutWidgetProvider with ChangeNotifier {
 
-  int _layoutPage = 0;
   int _page = 0;
-
-  // ==============================================
-  // 뷰 통지를 위한 콜백 함수
-  // ==============================================
+  String _name = "";
+  PageController _pageController = PageController();
 
   // 위젯에 전달하는 콜백
   void Function() onUpdated = () {};
-  void Function(String) onAlert = (msg) {};
 
-  onPageChange(page) async {
-    logger.i(page);
+  Future<void> setPage(int page) async {
     _page = page;
-    logger.i(_page);
     onUpdated();
   }
 
-
-  int getLayoutPage() {
-    return _page;
+  Future<void> setName(String name) async{
+    _name = name;
+    onUpdated();
   }
 
-  Future<void>setLayoutPage(int layoutPage) async{
-    this._layoutPage = layoutPage;
-    //notifyListeners();
+  int getPage() {
+    return _page == null ? 0 : _page;
+  }
+
+  String getName(){
+    return _name == null ? '사용자 정보 오류' : _name;
+  }
+
+  PageController getPageController(){
+    return _pageController;
   }
 
 }
