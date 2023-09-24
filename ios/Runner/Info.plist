@@ -45,7 +45,7 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
-	<key>NSPhotoLibraryUsageDescription </key>
+	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Photo Lib Useage</string>
 	<key>NSCameraUsageDescription</key>
     <string>Photo Lib Useage</string>

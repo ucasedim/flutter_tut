@@ -6,7 +6,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_tut/log/test_logger.dart';
 import 'package:flutter_tut/utils/global_variables.dart';
-import 'package:http/http.dart';
+//import 'package:http/http.dart';
 
 int exceptionRetryCnt = 0;
 
@@ -40,12 +40,13 @@ class FirebaseWebApi{
       var reqBody = jsonEncode({'token': FCMToken, 'uid':'' , 'platform':'web'});
       print("call url ${url}");
 
+      /*
       var response = await post(
         url,
         headers: headerInfo,
         body: reqBody,
       );
-
+*/
       FirebaseMessaging.onMessage.listen((RemoteMessage message) {
         print('Got a message whilst in the foreground!');
         print('Message data: ${message.data}');

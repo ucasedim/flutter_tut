@@ -25,11 +25,17 @@ void main() async {
 
   if (kIsWeb) {
     logger.i("app is Web Start");
-    await Firebase.initializeApp(options: DefaultFirebaseOptions.web,);
+    await Firebase.initializeApp(
+      name: 'wow-noti-web',
+      options: DefaultFirebaseOptions.web,
+    );
     //await FirebaseWebApi().initNotifications();
   } else {
     logger.i("app is not Web Start");
-    await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform,);
+    await Firebase.initializeApp(
+       name: 'wow-noti-mobile',
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
     //await FirebaseApi().initNotifications();
   }
 

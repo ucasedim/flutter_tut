@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:firebase_messaging_web/firebase_messaging_web.dart';
+//import 'package:firebase_messaging_web/firebase_messaging_web.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_tut/firebase_options.dart';
 import 'package:flutter_tut/responsive/mobile_screen_layout.dart';

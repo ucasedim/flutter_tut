@@ -108,7 +108,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     itemCount: documents == null ? 0 : documents.length,
                     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 3,
-                        crossAxisSpacing: 5,
+                        crossAxisSpacing: 1.5,
                         mainAxisSpacing: 1.5,
                         childAspectRatio: 1
                     ),
