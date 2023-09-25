@@ -2,6 +2,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_tut/log/test_logger.dart';
 import 'package:flutter_tut/providers/layout_widget_provider.dart';
+import 'package:flutter_tut/providers/subscribe_widget_provider.dart';
 import 'package:flutter_tut/providers/user_provider.dart';
 import 'package:logger/logger.dart';
 import 'package:flutter/foundation.dart';
@@ -58,6 +59,9 @@ class MyApp extends StatelessWidget {
           ),
           ChangeNotifierProvider(
             create: (_) => LayoutWidgetProvider(),
+          ),
+          ChangeNotifierProvider(
+              create: (_) => SubscribeWidgetProvider(),
           ),
         ],
         child: MaterialApp(

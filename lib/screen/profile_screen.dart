@@ -12,6 +12,7 @@ import 'package:flutter_tut/screen/notification_setting.dart';
 import 'package:flutter_tut/utils/colors.dart';
 import 'package:flutter_tut/utils/global_variables.dart';
 import 'package:flutter_tut/utils/utils.dart';
+import 'package:flutter_tut/widgets/notification_row.dart';
 
 import '../widgets/follow_button.dart';
 
@@ -135,7 +136,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               FirebaseAuth.instance.currentUser!.uid == widget.uid ?
                               FollowButton(
                                 //text: 'Edit Profile',
-                                text: 'Sign Out',
+                                text: '로그아웃',
                                 backgroundColor: mobileBackgroundColor,
                                 textColor: primaryColor,
                                 borderColor: Colors.grey,
@@ -270,7 +271,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               });
             },
           ),
-          title: const Text('Notification Settings'),
+          title: const Text('주요 알림 설정'),
           centerTitle: false,
         ),
         body: Container(
@@ -278,142 +279,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Padding(
-                padding: EdgeInsets.all(10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      child:
-                      Center(
-                        child: Text(
-                            '회사공지사항',
-                            style: TextStyle(
-                              overflow: TextOverflow.ellipsis,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 25,
-                            ),
-                        ),
-                      ),
-                    ),
-                    Container(
-                      child:
-                      CupertinoSwitch(
-                        value: isComp0Noti,
-                        activeColor: CupertinoColors.activeBlue,
-                        onChanged: (bool? value) {
-                          setState(() {
-                            isComp0Noti = value ?? false;
-                          });
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      child:
-                      const Center(
-                        child: Text(
-                          '회사공지사항',
-                          style: TextStyle(
-                            overflow: TextOverflow.ellipsis,
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 25,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Container(
-                      child:
-                      CupertinoSwitch(
-                        value: isComp1Noti,
-                        activeColor: CupertinoColors.activeBlue,
-                        onChanged: (bool? value) {
-                          setState(() {
-                            isComp1Noti = value ?? false;
-                          });
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      child:
-                      const Center(
-                        child: Text(
-                          '회사공지사항',
-                          style: TextStyle(
-                            overflow: TextOverflow.ellipsis,
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 25,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Container(
-                      child:
-                      CupertinoSwitch(
-                        value: isComp2Noti,
-                        activeColor: CupertinoColors.activeBlue,
-                        onChanged: (bool? value) {
-                          setState(() {
-                            isComp2Noti = value ?? false;
-                          });
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      child:
-                      const Center(
-                        child: Text(
-                          '회사공지사항',
-                          style: TextStyle(
-                            overflow: TextOverflow.ellipsis,
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 25,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Container(
-                      child:
-                      CupertinoSwitch(
-                        value: isComp3Noti,
-                        activeColor: CupertinoColors.activeBlue,
-                        onChanged: (bool? value) {
-                          setState(() {
-                            isComp3Noti = value ?? false;
-                          });
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              SubscribeRow(notificationKey: 'mainNoti',),
+              SubscribeRow(notificationKey: 'newPostNoti',),
+              SubscribeRow(notificationKey: 'webDevNoti',),
+              SubscribeRow(notificationKey: 'accountNoti',),
+              SubscribeRow(notificationKey: 'designNoti',),
+              SubscribeRow(notificationKey: 'mdNoti',),
             ],
           )
         )

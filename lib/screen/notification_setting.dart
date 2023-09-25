@@ -24,7 +24,7 @@ class _AppNotificationSettingsState extends State<AppNotificationSettings> {
 
           },
         ),
-        title: const Text('Notification Settings'),
+        title: const Text('주요 알림 설정'),
         centerTitle: false,
       ),
       body: Center(

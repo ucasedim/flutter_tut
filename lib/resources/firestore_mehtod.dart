@@ -11,6 +11,27 @@ import '../model/post.dart';
 
 class FirestoreMethod {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+  Future<void> updateNotification(
+      String userId ,
+      Map<String , bool> userSubscribeData) async{
+
+    try {
+      List<Map<String, bool>> setData = [];
+
+      userSubscribeData.forEach((key, value) {
+        setData.add({key: value});
+      });
+
+      await _firestore.collection('users').doc(userId).update({
+        'notification': setData,
+      });
+    }catch(e){
+      print(e);
+    }
+
+  }
+
   Future<String> uploadPost(
     String description,
     Uint8List file,

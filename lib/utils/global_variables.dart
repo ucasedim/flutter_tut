@@ -10,6 +10,7 @@ const webScreenSize = 600;
 const appLogoSvgPath = 'assets/wow_logo.png';
 
 int appLifecycleState = 2;
+
 bool isComp0Noti = true;
 bool isComp1Noti = true;
 bool isComp2Noti = true;
