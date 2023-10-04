@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_tut/model/user.dart';
 import 'package:flutter_tut/providers/subscribe_widget_provider.dart';
 import 'package:flutter_tut/providers/user_provider.dart';
-import 'package:provider/provider.dart';
 
 class SubscribeRow extends StatefulWidget {
 
@@ -28,7 +27,10 @@ class _SubscribeRowState extends State<SubscribeRow> {
 
   @override
   Widget build(BuildContext context) {
+    return Text('err');
+  }
 
+/*
     var _swp = context.read<SubscribeWidgetProvider>();
     final User user = Provider.of<UserProvider>(context).getUser;
 
@@ -54,13 +56,13 @@ class _SubscribeRowState extends State<SubscribeRow> {
           Container(
             child:
             CupertinoSwitch(
-              value: _swp.getSubscribeOption(widget.notificationKey!),
+              value: _swp.getSubscribeOption(widget.notificationKey),
               //value: context.watch<SubscribeWidgetProvider>().getSubscribeOption(widget.notificationKey),
               activeColor: CupertinoColors.activeBlue,
               onChanged: (bool value) {
                 print('bool value : ${value}');
                   setState(() {
-                    _swp.setSubscribeOption(widget.notificationKey, value ?? false ,user.uid);
+                    _swp.setSubscribeOption(widget.notificationKey, value ,user.uid);
                   });
               },
             ),
@@ -69,5 +71,5 @@ class _SubscribeRowState extends State<SubscribeRow> {
       ),
     );
   }
-
+*/
 }

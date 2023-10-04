@@ -28,9 +28,11 @@ class SubscribeOption {
     return keyName[key]!;
   }
 
+/*
   setSubscribeOption(String key , bool value){
     toMap()[key] = value!;
   }
+*/
 
   Map<String,bool> toJson() =>{
     "mainNoti" : mainNoti,

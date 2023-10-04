@@ -1,5 +1,8 @@
 importScripts("https://www.gstatic.com/firebasejs/9.10.0/firebase-app-compat.js");
 importScripts("https://www.gstatic.com/firebasejs/9.10.0/firebase-messaging-compat.js");
+importScripts('https://www.gstatic.com/firebasejs/9.10.0/firebase-app.js');
+importScripts('https://www.gstatic.com/firebasejs/9.10.0/firebase-database.js');
+
 
 firebase.initializeApp({
   apiKey: 'AIzaSyB7wZb2tO1-Fs6GbDADUSTs2Qs3w08Hovw',
@@ -16,6 +19,24 @@ firebase.initializeApp({
 const messaging = firebase.messaging();
 
 // Optional:
+messaging.onBackgroundMessage((payload) => {
+
+    const username = localStorage.getItem('webDevNoti');
+
+    console.log('Received background message ', payload);
+    console.log('Received background message ', username);
+
+    // Customize notification details
+    const notificationTitle = payload.notification.title;
+    const notificationOptions = {
+        body: payload.notification.body,
+        icon: payload.notification.icon // Optional: you can customize this
+    };
+
+    self.registration.showNotification(notificationTitle, notificationOptions);
+});
+
+/*
 messaging.onBackgroundMessage((m) => {
   console.log("onBackgroundMessage", m);
 
@@ -24,7 +45,7 @@ messaging.onBackgroundMessage((m) => {
         body: m.notification.body,
       };
 
-      self.registration.showNotification(notificationTitle,
-        notificationOptions);
+      //self.registration.showNotification(notificationTitle , notificationOptions);
 
 });
+*/

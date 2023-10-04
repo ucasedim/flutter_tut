@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tut/utils/colors.dart';
-import 'package:provider/provider.dart';
 
 import '../model/user.dart';
 import '../providers/user_provider.dart';
@@ -31,7 +30,15 @@ class _CommentsScreenState extends State<CommentsScreen> {
   @override
   Widget build(BuildContext context) {
 
-    final User user = Provider.of<UserProvider>(context).getUser;
+    //final User user = Provider.of<UserProvider>(context).getUser;
+    final User user = User(
+        uid: '',
+        username: '',
+        photoUrl: '',
+        following: [],
+        followers: [],
+        email: '',
+        bio: '');
 
     return Scaffold(
       appBar: AppBar(

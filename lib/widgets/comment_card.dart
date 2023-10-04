@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tut/providers/user_provider.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
 
 import '../model/user.dart';
 
@@ -18,6 +17,8 @@ class CommentCard extends StatefulWidget {
 class _CommentCardState extends State<CommentCard> {
   @override
   Widget build(BuildContext context) {
+    return Text('error');
+    /*
     final User user = Provider.of<UserProvider>(context).getUser;
 
     return Container(
@@ -87,5 +88,6 @@ class _CommentCardState extends State<CommentCard> {
         ],
       ),
     );
+     */
   }
 }

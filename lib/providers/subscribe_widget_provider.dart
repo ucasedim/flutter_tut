@@ -42,10 +42,6 @@ class SubscribeWidgetProvider with ChangeNotifier {
     print("map 2 :  ${option.toMap()}");
     print("setSubscribeOption 3: ${getSubscribeOption(key)}");
     notifyListeners();
-
-
-
-
     FirestoreMethod().updateNotification(uid, option.toMap());
 
   }

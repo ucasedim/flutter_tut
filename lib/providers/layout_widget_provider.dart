@@ -1,35 +1,18 @@
-import 'package:flutter_tut/log/test_logger.dart';
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_tut/log/test_logger.dart';
+import 'package:flutter_tut/model/layout.dart';
+import 'package:flutter_tut/utils/global_variables.dart';
 
-class LayoutWidgetProvider with ChangeNotifier {
+class LayoutWidgetProvider extends StateProvider<Layout?>{
 
-  int _page = 0;
-  String _name = "";
-  PageController _pageController = PageController();
+  LayoutWidgetProvider(super.createFn);
+  Layout? _layout;
 
-  // 위젯에 전달하는 콜백
-  void Function() onUpdated = () {};
-
-  Future<void> setPage(int page) async {
-    _page = page;
-    onUpdated();
-  }
-
-  Future<void> setName(String name) async{
-    _name = name;
-    onUpdated();
-  }
-
-  int getPage() {
-    return _page == null ? 0 : _page;
-  }
-
-  String getName(){
-    return _name == null ? '사용자 정보 오류' : _name;
-  }
-
-  PageController getPageController(){
-    return _pageController;
+  void setPage(int page) {
+    _layout?.fromToJson(_layout?.toJson().update('page', (value) => page));
   }
 
 }
