@@ -5,15 +5,21 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class SubscribeOption {
 
-  bool mainNoti = true;
-  bool newPostNoti = false;
-  bool webDevNoti = false;
-  bool accountNoti = false;
-  bool designNoti = false;
-  bool mdNoti = false;
+  final bool mainNoti;
+  final bool newPostNoti;
+  final bool webDevNoti;
+  final bool accountNoti;
+  final bool designNoti;
+  final bool mdNoti;
 
-  // 위젯에 전달하는 콜백
-  void Function() onUpdated = () {};
+  SubscribeOption({
+    required this.mainNoti,
+    required this.newPostNoti,
+    required this.webDevNoti,
+    required this.accountNoti,
+    required this.designNoti,
+    required this.mdNoti
+  });
 
   Map<String,String> keyName = {
     'mainNoti' : '메인 공지사항',
@@ -51,18 +57,6 @@ class SubscribeOption {
     "designNoti" : designNoti,
     "mdNoti" : mdNoti,
   };
-
-  void saveFromMapData( Map<String, bool> map) {
-
-    print("?? :  ${map['newPostNoti']}");
-         this.mainNoti    = map['mainNoti']!;
-         this.newPostNoti = map['newPostNoti']!;
-         this.webDevNoti  = map['webDevNoti']!;
-         this.accountNoti = map['accountNoti']!;
-         this.designNoti  = map['designNoti']!;
-         this.mdNoti      = map['mdNoti']!;
-  }
-
 
 /*
   static SubscribeOption fromSnapshot( DocumentSnapshot snap) {

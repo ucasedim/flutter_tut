@@ -2,24 +2,15 @@ import 'dart:math';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_tut/api/firebase_api.dart';
+import 'package:flutter_tut/api/notification.dart';
 import 'package:flutter_tut/model/layout.dart';
-import 'package:flutter_tut/providers/layout_widget_provider.dart';
-import 'package:flutter_tut/providers/subscribe_widget_provider.dart';
 import 'package:flutter_tut/utils/colors.dart';
 import 'package:flutter_tut/utils/global_variables.dart';
-import 'package:flutter_tut/utils/utils.dart';
-
-import '../api/notification.dart';
-import '../model/user.dart' as model;
-import 'package:flutter_tut/providers/user_provider.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_tut/log/test_logger.dart';
 import 'package:flutter/material.dart';
-import 'package:logger/logger.dart';
+
 
 class MobileScreenLayout extends ConsumerWidget{
 
@@ -35,7 +26,7 @@ class MobileScreenLayout extends ConsumerWidget{
 
     final userProvider = ref.watch(userInfoProcessProvider);
     final layoutProvider = ref.watch(layoutWidgetProcessProvider);
-    final subscribeProvider = ref.watch(subscribeWidgetProcessProvider);
+    //final subscribeProvider = ref.watch(subscribeWidgetProcessProvider);
 
     try {
 
@@ -44,8 +35,13 @@ class MobileScreenLayout extends ConsumerWidget{
         FirebaseMessaging.onMessage.listen((RemoteMessage message) {
           logger.i("onMessage!!Lissten ${message.notification?.title}");
           loggerNoStack.i('${message.data['notiType']}');
-          loggerNoStack.i(subscribeProvider.option.toMap()['${message.data['notiType']}']);
-          if(subscribeProvider.option.toMap()['${message.data['notiType']}']!){
+          loggerNoStack.i('${message.data}');
+          loggerNoStack.i('${message.notification}');
+          print(message.data);
+          loggerNoStack.i(message);
+          loggerNoStack.i(ref.read(notiSubscribeProvider.notifier).getSubscribeOption.toMap()['${message.data['notiType']}']);
+
+          if(ref.read(notiSubscribeProvider.notifier).getSubscribeOption.toMap()['${message.data['notiType']}']!){
             FlutterLocalNotification.showNotification(
               '${message.notification?.title}',
               '${message.notification?.body}',

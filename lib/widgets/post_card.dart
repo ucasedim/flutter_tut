@@ -7,6 +7,7 @@ import 'package:flutter_tut/providers/layout_widget_provider.dart';
 import 'package:flutter_tut/resources/firestore_mehtod.dart';
 import 'package:flutter_tut/screen/comment_screeen.dart';
 import 'package:flutter_tut/utils/colors.dart';
+import 'package:flutter_tut/utils/custom_circle_avator.dart';
 import 'package:flutter_tut/utils/global_variables.dart';
 import 'package:flutter_tut/utils/utils.dart';
 import 'package:flutter_tut/widgets/like_animations.dart';
@@ -77,11 +78,10 @@ class PostCard extends ConsumerWidget{
             ).copyWith(right: 0),
             child: Row(
               children: [
-                CircleAvatar(
-                  radius: 16,
-                  backgroundImage: NetworkImage(
-                      snap['profImage']
-                  ),
+                CustomCircleAvatar(
+                  radius: 16.0,
+                  srcNetworkImage: snap['profImage'],
+                  srcAssetsImage: 'assets/free-icon-user-avatar-6596121.png',
                 ),
                 Expanded(
                   child: Padding(

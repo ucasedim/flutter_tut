@@ -193,7 +193,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   alignment: Alignment.centerLeft,
                   padding: const EdgeInsets.only(top:15),
                   child: Text(
-                    'username' ,
+                    userData['username'] ,
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                     ),

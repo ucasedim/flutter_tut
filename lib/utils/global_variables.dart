@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_tut/model/SubscribeOption.dart';
 import 'package:flutter_tut/model/layout.dart';
 import 'package:flutter_tut/model/user.dart' as model;
 import 'package:flutter_tut/providers/layout_widget_provider.dart';
@@ -29,11 +30,14 @@ const fcmServerPutTokenUrl = "http://192.168.30.140:8080/api/v1/tokenmanage/put"
  * subscribeWidgetProcessProvider : 알림 관련 Provider
  */
 //final userInfoProcessProvider = Provider((ref) => UserProvider((ref) => null));
+final notiUserProvider = StateNotifierProvider<UserProvider, model.User?>((ref) => UserProvider(null));
+final notiSubscribeProvider = StateNotifierProvider<SubscribeWidgetProvider, SubscribeOption?>((ref) => SubscribeWidgetProvider(null));
 
 final userInfoProcessProvider = StateProvider<model.User>((ref) =>
-    model.User(email: '',
+    model.User(
+        email: '',
         uid: '',
-        photoUrl: '',
+        photoUrl: 'http://naver.com',
         username: '',
         bio: '',
         followers: [],
@@ -42,8 +46,19 @@ final userInfoProcessProvider = StateProvider<model.User>((ref) =>
 
 final layoutWidgetProcessProvider = StateProvider<Layout>((ref) =>
     Layout(file: null, name: '', page: 0, pageController: PageController()));
-
-final subscribeWidgetProcessProvider = Provider((ref) => SubscribeWidgetProvider(),);
+/*
+final subscribeWidgetProcessProvider = StateProvider<SubscribeOption>((ref) =>
+    SubscribeOption(
+        mainNoti: true,
+      webDevNoti: false,
+      mdNoti: false,
+      designNoti: false,
+      accountNoti: false,
+      newPostNoti: false,
+    )
+);
+*/
+//final subscribeWidgetProcessProvider = Provider((ref) => SubscribeWidgetProvider(),);
 
 final postFileProcessProvider = StateProvider<Uint8List?>((ref)=> null);
 

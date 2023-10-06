@@ -32,16 +32,9 @@ class AuthMethods {
   }) async {
       String res = "Some error occurred";
       try{
-
         if(email.isNotEmpty || password.isNotEmpty || username.isNotEmpty || bio.isNotEmpty || file != null){
-
           UserCredential cred = await _auth.createUserWithEmailAndPassword(email: email, password: password);
-
-          print(cred.user!.uid);
-
-          String photoUrl = await StorageMethods().uploadImageToStroage('profileePics', file, false);
-
-
+          String photoUrl = await StorageMethods().uploadImageToStroage('profilePics', file, false);
           model.User user = model.User(
             bio: bio,
             email: email,
@@ -51,15 +44,9 @@ class AuthMethods {
             uid: cred.user!.uid,
             username: username,
           );
-
-          print('photourl  ::  $photoUrl');
-
-
           await _firestore.collection('users').doc(cred.user!.uid).set(user.toJson(),);
-
           res = "success";
         }
-
       } on FirebaseException catch (err){
         if(err.code == 'invalid-email'){
           res = 'The email is badly formatted.';

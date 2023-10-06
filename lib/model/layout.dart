@@ -23,12 +23,6 @@ class Layout {
     "name" : name,
     "pageController" : pageController,
   };
-/*
-  Future<void> setPage(int page) async {
-    this.page = page;
-    print("this page ${this.page}");
-  }
-*/
 
   void navigationTapped(int page){
     print("param page ${page}");

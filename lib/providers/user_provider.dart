@@ -4,10 +4,14 @@ import 'package:flutter_tut/resources/auth_methods.dart';
 import 'package:flutter_tut/utils/global_variables.dart';
 
 
-class UserProvider extends StateProvider<User?> {
-  UserProvider(super.createFn);
+class UserProvider extends StateNotifier<User?> {
+
+  //UserProvider(super.createFn);
+  //UserProvider() : super(super.createFn);
+  UserProvider(super.state);
   User? _user;
   final AuthMethods _autoMethod = AuthMethods();
+
   User get getUser => _user!;
 
   Future<void> refreshUser() async {

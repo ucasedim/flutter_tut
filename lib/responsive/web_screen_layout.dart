@@ -71,7 +71,7 @@ class WebScreenLayout extends ConsumerWidget{
     initFirebaseMessaging(context);
     saveToSharedPreferencesAndLocalStorage('webDevNoti' , 'true');
     lp = ref.watch(layoutWidgetProcessProvider);
-    _swp = ref.watch(subscribeWidgetProcessProvider);
+    //_swp = ref.watch(subscribeWidgetProcessProvider);
 
     return Scaffold(
         appBar: AppBar(
