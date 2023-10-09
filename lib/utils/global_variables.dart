@@ -4,11 +4,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_tut/model/SubscribeOption.dart';
+import 'package:flutter_tut/model/add_post.dart';
 import 'package:flutter_tut/model/layout.dart';
 import 'package:flutter_tut/model/user.dart' as model;
 import 'package:flutter_tut/providers/layout_widget_provider.dart';
+import 'package:flutter_tut/providers/post_file_provider.dart';
 import 'package:flutter_tut/providers/subscribe_widget_provider.dart';
 import 'package:flutter_tut/providers/user_provider.dart';
+import 'package:flutter_tut/resources/auth_methods.dart';
 import 'package:flutter_tut/screen/add_post_screen.dart';
 import 'package:flutter_tut/screen/feed_screen.dart';
 import 'package:flutter_tut/screen/notification_setting.dart';
@@ -21,6 +24,7 @@ import 'package:flutter_tut/screen/search_screen.dart';
 const webScreenSize = 600;
 const appLogoSvgPath = 'assets/wow_logo.png';
 const fcmServerPutTokenUrl = "http://192.168.30.140:8080/api/v1/tokenmanage/put";
+const defaultUserProfilePath = 'assets/free-icon-user-avatar-6596121.png';
 
 
 /*
@@ -30,9 +34,18 @@ const fcmServerPutTokenUrl = "http://192.168.30.140:8080/api/v1/tokenmanage/put"
  * subscribeWidgetProcessProvider : 알림 관련 Provider
  */
 //final userInfoProcessProvider = Provider((ref) => UserProvider((ref) => null));
-final notiUserProvider = StateNotifierProvider<UserProvider, model.User?>((ref) => UserProvider(null));
-final notiSubscribeProvider = StateNotifierProvider<SubscribeWidgetProvider, SubscribeOption?>((ref) => SubscribeWidgetProvider(null));
 
+
+//final postFileProcessProvider = StateProvider<Uint8List?>((ref)=> null);
+//final notiPostFileProcessProvider = StateNotifierProvider<>((ref) => null)
+
+final notiAddPostProcessProvider =StateNotifierProvider<AddPostProvider , AddPost?>(
+        (ref) => AddPostProvider(null));
+
+final notiUserProvider = StateNotifierProvider<UserProvider, model.User?>((ref) => UserProvider(null));
+final notiSubscribeProvider = StateNotifierProvider<SubscribeWidgetProvider, SubscribeOption?>((ref) =>
+        SubscribeWidgetProvider(null));
+/*
 final userInfoProcessProvider = StateProvider<model.User>((ref) =>
     model.User(
         email: '',
@@ -43,7 +56,7 @@ final userInfoProcessProvider = StateProvider<model.User>((ref) =>
         followers: [],
         following: [],
     ));
-
+*/
 final layoutWidgetProcessProvider = StateProvider<Layout>((ref) =>
     Layout(file: null, name: '', page: 0, pageController: PageController()));
 /*
@@ -59,9 +72,6 @@ final subscribeWidgetProcessProvider = StateProvider<SubscribeOption>((ref) =>
 );
 */
 //final subscribeWidgetProcessProvider = Provider((ref) => SubscribeWidgetProvider(),);
-
-final postFileProcessProvider = StateProvider<Uint8List?>((ref)=> null);
-
 /*
 * 메인페이지에서 사용하는 화면 리스트
 * Change 값에 따라 화면 호출

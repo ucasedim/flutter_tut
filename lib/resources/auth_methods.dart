@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_tut/model/SubscribeOption.dart';
 import 'package:logger/logger.dart';
 
 import '../log/test_logger.dart';
@@ -14,6 +15,33 @@ class AuthMethods {
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+  Future<SubscribeOption?> getSubscribeOption() async{
+    User currentUser = _auth.currentUser!;
+    DocumentSnapshot snap = await _firestore.collection('users').doc(currentUser.uid).get();
+    print("snap ${snap}");
+    List<dynamic> subscribe = snap['notification'];
+    print("subscrbie : ${subscribe}");
+
+    Map<String,dynamic> data = Map<String,dynamic>();
+    for (Map<String,dynamic> element in subscribe) {
+      //Map<String,bool> e = element;
+      element.forEach((key, value) {data[key] = value;});
+    }
+
+    print("************************************");
+    print(data);
+    print("************************************");
+
+    return SubscribeOption(
+        mainNoti: data['mainNoti'],
+        newPostNoti: data['newPostNoti'],
+        webDevNoti: data['webDevNoti'],
+        accountNoti: data['accountNoti'],
+        designNoti: data['designNoti'],
+        mdNoti: data['mdNoti']
+    );
+  }
 
   Future<model.User> getUserDetails() async {
     User currentUser = _auth.currentUser!;

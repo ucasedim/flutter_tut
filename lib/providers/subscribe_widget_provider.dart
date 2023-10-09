@@ -11,9 +11,22 @@ import 'package:flutter_tut/resources/firestore_mehtod.dart';
 class SubscribeWidgetProvider extends StateNotifier<SubscribeOption?> {
 
   SubscribeWidgetProvider(super.state);
-
   SubscribeOption? option;
   SubscribeOption get getSubscribeOption => option!;
+
+
+  Future<void> setSubscribeOptionFromFirebase() async {
+    print("option : ${option}");
+    SubscribeOption? so = await AuthMethods().getSubscribeOption();
+
+    option = so;
+    //return await AuthMethods().getSubscribeOption();
+    print("option result : ${option}");
+    print(so);
+    print(option);
+
+    print("option result END!!!!");
+  }
 
   Future<void> setSubscribeOptionFromSnapshot(DocumentSnapshot snap) async {
     option = SubscribeOption(
@@ -26,8 +39,10 @@ class SubscribeWidgetProvider extends StateNotifier<SubscribeOption?> {
     );
   }
 
-  Future<void> setSubscribeOptionFromMap( Map<String,bool> map)  async {
-    option = SubscribeOption(
+  Future<void> setSubscribeOptionFromMap( Map<String,bool>? map)  async {
+    map == null ?
+    option = null
+    :option = SubscribeOption(
         mainNoti   : map['mainNoti']!,
         newPostNoti: map['newPostNoti']!,
         webDevNoti : map['webDevNoti']!,
@@ -38,11 +53,11 @@ class SubscribeWidgetProvider extends StateNotifier<SubscribeOption?> {
   }
 
   bool getSubscribeOptionKey(String key){
-    return option!.toMap()[key] ?? false;
+    return option?.toMap()[key] ?? false;
   }
 
   void setSubscribeOption(String key , bool value , String uid) async {
-    Map<String,bool> _map = option!.toMap();
+    Map<String, bool> _map = option!.toMap();
     _map.remove(key);
     _map[key] = value;
     await setSubscribeOptionFromMap(_map);

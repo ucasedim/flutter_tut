@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_tut/log/test_logger.dart';
 import 'package:flutter_tut/resources/auth_methods.dart';
 import 'package:flutter_tut/resources/firestore_mehtod.dart';
@@ -10,6 +11,7 @@ import 'package:flutter_tut/screen/add_post_screen.dart';
 import 'package:flutter_tut/screen/login_screen.dart';
 import 'package:flutter_tut/screen/notification_setting.dart';
 import 'package:flutter_tut/utils/colors.dart';
+import 'package:flutter_tut/utils/custom_circle_avator.dart';
 import 'package:flutter_tut/utils/global_variables.dart';
 import 'package:flutter_tut/utils/utils.dart';
 import 'package:flutter_tut/widgets/notification_row.dart';
@@ -108,14 +110,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
               child: Column( children: [
                 Row(
                   children: [
-                    CircleAvatar(
-                      backgroundColor: mobileBackgroundColor,
-                      backgroundImage:
-                      userData['photoUrl'] != null ?
-                      NetworkImage(userData['photoUrl'])
-                          :
-                      NetworkImage('https://images.unsplash.com/photo-1606041008023-472dfb5e530f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1976&q=80'),
-                      radius: 40,
+                    CustomCircleAvatar(
+                        radius: 40,
+                        srcNetworkImage: "1234",
+                        srcAssetsImage: defaultUserProfilePath
                     ),
                     Expanded(
                       flex: 1,
@@ -285,6 +283,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               SubscribeRow(notificationKey: 'accountNoti',),
               SubscribeRow(notificationKey: 'designNoti',),
               SubscribeRow(notificationKey: 'mdNoti',),
+
             ],
           )
         )

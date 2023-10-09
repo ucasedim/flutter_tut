@@ -34,8 +34,11 @@ class PostCard extends ConsumerWidget{
     //ref.watch(userProvider)!.refreshUser();
     //final User user = ref.watch(userProvider)?.getUser;
     //final User user = ref.watch(userProvider)?;
-    final user = ref.watch(userInfoProcessProvider);
+
+    ref.read(notiUserProvider.notifier).refreshUser();
+    final user = ref.watch(notiUserProvider);
     final layoutProv = ref.watch(layoutWidgetProcessProvider);
+
 
     //ref.read(userInfoProcessProvider.notifier).state;
 
@@ -81,7 +84,7 @@ class PostCard extends ConsumerWidget{
                 CustomCircleAvatar(
                   radius: 16.0,
                   srcNetworkImage: snap['profImage'],
-                  srcAssetsImage: 'assets/free-icon-user-avatar-6596121.png',
+                  srcAssetsImage: defaultUserProfilePath,
                 ),
                 Expanded(
                   child: Padding(
@@ -130,7 +133,7 @@ class PostCard extends ConsumerWidget{
             onDoubleTap: () async {
               await FirestoreMethod().likePost(
                   snap['postId'].toString(),
-                  user.uid,
+                  user!.uid,
                   snap['likes']
               );
               /*
@@ -176,17 +179,17 @@ class PostCard extends ConsumerWidget{
           Row(
             children: [
               LikeAnimcation(
-                  isAnimating: snap['likes'] != null ? snap['likes'].contains( user.uid )  : false,
+                  isAnimating: snap['likes'] != null ? snap['likes'].contains( user?.uid )  : false,
                   smallLike: true,
                   child: IconButton(onPressed: ()async{
 
                     await FirestoreMethod().likePost(
                         snap['postId'].toString(),
-                        user.uid,
+                        user!.uid,
                         snap['likes']
                     );
 
-                  }, icon: snap['likes'].contains(user.uid) ?  const Icon(
+                  }, icon: snap['likes'].contains(user?.uid) ?  const Icon(
                     Icons.favorite ,
                     color: Colors.red,
                   ): const Icon(Icons.favorite_border)

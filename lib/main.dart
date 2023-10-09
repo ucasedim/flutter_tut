@@ -4,10 +4,13 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_tut/firebase_options.dart';
+import 'package:flutter_tut/model/SubscribeOption.dart';
+import 'package:flutter_tut/providers/subscribe_widget_provider.dart';
 import 'package:flutter_tut/responsive/responsive_layout.dart';
 import 'package:flutter_tut/screen/login_screen.dart';
 import 'package:flutter_tut/utils/colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_tut/utils/global_variables.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

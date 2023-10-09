@@ -14,12 +14,12 @@ class FirestoreMethod {
 
   Future<void> updateNotification(
       String userId ,
-      Map<String , bool> userSubscribeData) async{
+      Map<String , bool>? userSubscribeData) async{
 
     try {
       List<Map<String, bool>> setData = [];
 
-      userSubscribeData.forEach((key, value) {
+      userSubscribeData?.forEach((key, value) {
         setData.add({key: value});
       });
 

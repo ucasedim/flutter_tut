@@ -2,17 +2,9 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_tut/log/test_logger.dart';
-import 'package:flutter_tut/model/layout.dart';
-import 'package:flutter_tut/providers/file_model.dart';
-import 'package:flutter_tut/providers/post_file_provider.dart';
-import 'package:flutter_tut/providers/layout_widget_provider.dart';
-import 'package:flutter_tut/providers/subscribe_widget_provider.dart';
-import 'package:flutter_tut/providers/user_provider.dart';
+import 'package:flutter_tut/model/add_post.dart';
+import 'package:flutter_tut/resources/auth_methods.dart';
 import 'package:flutter_tut/resources/firestore_mehtod.dart';
-import 'package:flutter_tut/responsive/mobile_screen_layout.dart';
-import 'package:flutter_tut/responsive/web_screen_layout.dart';
-import 'package:flutter_tut/screen/feed_screen.dart';
 import 'package:flutter_tut/utils/colors.dart';
 import 'package:flutter_tut/utils/global_variables.dart';
 import 'package:flutter_tut/utils/utils.dart';
@@ -24,23 +16,26 @@ class AddPostScreen extends ConsumerWidget {
   AddPostScreen({Key? key}) : super(key: key);
   final TextEditingController _descriptionController = TextEditingController();
   bool _isLoading = false;
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
 
+    final addPostProvider = ref.watch(notiAddPostProcessProvider);
+    final userProvider = ref.watch(notiUserProvider);
 
-    final file= ref.watch(postFileProcessProvider);
-    final userWatchManage = ref.watch(notiUserProvider);
-    final userNotifierManage = ref.read(notiUserProvider.notifier);
+    print(userProvider?.username);
+    print(userProvider?.username);
+    print(userProvider?.username);
+    print(userProvider?.username);
+    print(userProvider?.username);
+    print(userProvider?.username);
+    print(userProvider?.username);
 
     void clearImage() {
-      ref.read(postFileProcessProvider.notifier).state = null;
+      ref.read(notiAddPostProcessProvider.notifier).state = AddPost(file:null);
     }
-
     void postSuccess(BuildContext context) {
       ref.read(layoutWidgetProcessProvider).pageController.jumpToPage(0);
     }
-
     void postImage(String uid,
         String username,
         String profImage,
@@ -53,8 +48,7 @@ class AddPostScreen extends ConsumerWidget {
       try {
         String res = await FirestoreMethod().uploadPost(
             _descriptionController.text,
-            //_file!,
-            file!,
+            addPostProvider!.file!,
             uid,
             username,
             profImage);
@@ -75,7 +69,7 @@ class AddPostScreen extends ConsumerWidget {
 
     _selectImage(BuildContext context) async {
 
-      final userInfoProvider = ref.watch(userInfoProcessProvider);
+      final userInfoProvider = ref.watch(notiUserProvider);
 
       return showDialog(
           context: context,
@@ -89,13 +83,7 @@ class AddPostScreen extends ConsumerWidget {
                   onPressed: () async {
                     Navigator.of(context).pop();
                     Uint8List file = await pickImage(ImageSource.camera,);
-                    ref.read(postFileProcessProvider.notifier).state = file;
-                    //lp.setFile(file);
-                    //loggerNoStack.i(lp.getFile == null);
-                    //ref.read(postFileProvider.notifier).addFile(new PostFile(file: file));
-                    //PostFileNotifier().addFile(PostFile(file: file));
-                    //logger.i(lp.getFile);
-
+                    ref.read(notiAddPostProcessProvider.notifier).state = AddPost(file: file);
                   },
                 ),
                 SimpleDialogOption(
@@ -104,7 +92,7 @@ class AddPostScreen extends ConsumerWidget {
                   onPressed: () async {
                     Navigator.of(context).pop();
                     Uint8List file = await pickImage(ImageSource.gallery);
-                    ref.read(postFileProcessProvider.notifier).state = file;
+                    ref.read(notiAddPostProcessProvider.notifier).state = AddPost(file: file);
                   },
                 ),
                 SimpleDialogOption(
@@ -119,11 +107,7 @@ class AddPostScreen extends ConsumerWidget {
           });
     }
 
-    if(file != null){
-      //loggerNoStack.i(file);
-    }
-
-    return file == null?
+    return addPostProvider?.file == null?
     //return lp.getFile == null ?
                       GestureDetector(
                       onTap: ()=> _selectImage(context),
@@ -144,7 +128,7 @@ class AddPostScreen extends ConsumerWidget {
                   '업로드하기',
                 ),
                 Text(
-                  '${file}'
+                    '${addPostProvider?.file}'
                 ),
               ],
             ),
@@ -165,9 +149,9 @@ class AddPostScreen extends ConsumerWidget {
           TextButton(
               onPressed: () =>
                   postImage(
-                      userWatchManage!.uid,
-                      userWatchManage!.username,
-                      userWatchManage!.photoUrl,
+                      userProvider!.uid,
+                      userProvider!.username,
+                      userProvider!.photoUrl,
                       context
                   ),
               child: const Text(
@@ -203,7 +187,7 @@ class AddPostScreen extends ConsumerWidget {
                             decoration: BoxDecoration(
                               border: Border.all(),
                               image: DecorationImage(
-                                image : MemoryImage(file),
+                                image : MemoryImage(addPostProvider!.file!),
                                 fit: BoxFit.fill,
                                 alignment: FractionalOffset.center,
                               ),

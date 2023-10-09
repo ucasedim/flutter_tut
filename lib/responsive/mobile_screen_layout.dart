@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_tut/api/firebase_api.dart';
 import 'package:flutter_tut/api/notification.dart';
 import 'package:flutter_tut/model/layout.dart';
+import 'package:flutter_tut/resources/auth_methods.dart';
 import 'package:flutter_tut/utils/colors.dart';
 import 'package:flutter_tut/utils/global_variables.dart';
 import 'package:flutter_tut/log/test_logger.dart';
@@ -18,14 +19,30 @@ class MobileScreenLayout extends ConsumerWidget{
     await FirebaseApiInit().init();
   }
 
+  getUser(WidgetRef ref) async{
+    ref.read(notiUserProvider.notifier).state = await AuthMethods().getUserDetails();
+  }
+
   @override
   Widget build(BuildContext context , WidgetRef ref) {
 
     initMobileNotification();
     FlutterLocalNotification.init();
 
-    final userProvider = ref.watch(userInfoProcessProvider);
+    final userProvider = ref.watch(notiUserProvider);
     final layoutProvider = ref.watch(layoutWidgetProcessProvider);
+    if(userProvider == null) {
+      print("gogogo");
+      getUser(ref);
+    }
+
+    print(userProvider);
+    print(userProvider);
+    print(userProvider);
+    print(userProvider);
+    print(userProvider);
+    print(userProvider);
+    print(userProvider);
     //final subscribeProvider = ref.watch(subscribeWidgetProcessProvider);
 
     try {

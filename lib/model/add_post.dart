@@ -1,14 +1,12 @@
 import 'dart:typed_data';
-import 'package:flutter/material.dart';
 
 class AddPost {
+  final Uint8List? file;
 
-  final Uint8List file;
-  final bool isLoading;
+  Uint8List? get getFile => file;
 
   AddPost({
     required this.file,
-    required this.isLoading,
   });
 
 }

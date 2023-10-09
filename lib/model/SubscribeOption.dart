@@ -31,7 +31,11 @@ class SubscribeOption {
   };
 
   String getKeyName(String key)  {
-    return keyName[key]!;
+    String returnValue = 'errorvalue';
+    if(key.contains(key))
+      returnValue = keyName[key]!;
+
+    return returnValue;
   }
 
 /*
