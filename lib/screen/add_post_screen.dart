@@ -1,16 +1,13 @@
 import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_tut/model/add_post.dart';
-import 'package:flutter_tut/resources/auth_methods.dart';
+import 'package:flutter_tut/model/layout.dart';
 import 'package:flutter_tut/resources/firestore_mehtod.dart';
 import 'package:flutter_tut/utils/colors.dart';
 import 'package:flutter_tut/utils/global_variables.dart';
 import 'package:flutter_tut/utils/utils.dart';
 import 'package:image_picker/image_picker.dart';
-
-import '../model/user.dart';
 
 class AddPostScreen extends ConsumerWidget {
   AddPostScreen({Key? key}) : super(key: key);
@@ -19,22 +16,25 @@ class AddPostScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
 
-    final addPostProvider = ref.watch(notiAddPostProcessProvider);
+    final addPostProvider = ref.watch(notiAddPostProvider);
     final userProvider = ref.watch(notiUserProvider);
-
-    print(userProvider?.username);
-    print(userProvider?.username);
-    print(userProvider?.username);
-    print(userProvider?.username);
-    print(userProvider?.username);
-    print(userProvider?.username);
-    print(userProvider?.username);
+    final layoutProvider = ref.watch(notiLayoutProvider);
 
     void clearImage() {
-      ref.read(notiAddPostProcessProvider.notifier).state = AddPost(file:null);
+      ref.read(notiAddPostProvider.notifier).state = AddPost(file:null);
     }
+
     void postSuccess(BuildContext context) {
-      ref.read(layoutWidgetProcessProvider).pageController.jumpToPage(0);
+
+      Layout? updateLayout = ref.read(notiLayoutProvider.notifier).getLayout;
+
+      if(updateLayout == null){
+        updateLayout = Layout(file: null, name: '', page: 0, pageController: PageController());
+      } else {
+        updateLayout.page = 0;
+      }
+      layoutProvider!.pageController.jumpToPage(0);
+
     }
     void postImage(String uid,
         String username,
@@ -83,7 +83,7 @@ class AddPostScreen extends ConsumerWidget {
                   onPressed: () async {
                     Navigator.of(context).pop();
                     Uint8List file = await pickImage(ImageSource.camera,);
-                    ref.read(notiAddPostProcessProvider.notifier).state = AddPost(file: file);
+                    ref.read(notiAddPostProvider.notifier).state = AddPost(file: file);
                   },
                 ),
                 SimpleDialogOption(
@@ -92,7 +92,7 @@ class AddPostScreen extends ConsumerWidget {
                   onPressed: () async {
                     Navigator.of(context).pop();
                     Uint8List file = await pickImage(ImageSource.gallery);
-                    ref.read(notiAddPostProcessProvider.notifier).state = AddPost(file: file);
+                    ref.read(notiAddPostProvider.notifier).state = AddPost(file: file);
                   },
                 ),
                 SimpleDialogOption(

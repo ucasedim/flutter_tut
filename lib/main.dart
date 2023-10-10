@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_tut/api/firebase_web_api.dart';
 import 'package:flutter_tut/log/test_logger.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -18,13 +19,11 @@ void main() async {
   if (kIsWeb) {
     logger.i("app is Web Start");
     await Firebase.initializeApp(
-      name: 'mb-web',
       options: DefaultFirebaseOptions.web,
     );
   } else {
     logger.i("app is not Web Start");
     await Firebase.initializeApp(
-      name: 'mb-wow',
       options: DefaultFirebaseOptions.currentPlatform,
     );
   }

@@ -1,33 +1,58 @@
-importScripts("https://www.gstatic.com/firebasejs/9.10.0/firebase-app-compat.js");
-importScripts("https://www.gstatic.com/firebasejs/9.10.0/firebase-messaging-compat.js");
-importScripts('https://www.gstatic.com/firebasejs/9.10.0/firebase-app.js');
-importScripts('https://www.gstatic.com/firebasejs/9.10.0/firebase-database.js');
+importScripts('https://www.gstatic.com/firebasejs/8.6.5/firebase-app.js');
+importScripts('https://www.gstatic.com/firebasejs/8.6.5/firebase-messaging.js');
+//importScripts('https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js');
+//importScripts('https://www.gstatic.com/firebasejs/10.4.0/firebase-messaging.js');
 
+    const firebaseConfig = {
+        apiKey: 'AIzaSyALSZ92G6sdeaylidr1Z65a6QbroZKMyDE',
+        appId: '1:423719724937:web:ccc2b55b5e145c32552358',
+        messagingSenderId: '423719724937',
+        projectId: 'wowpress-beta',
+        authDomain: 'wowpress-beta.firebaseapp.com',
+        storageBucket: 'wowpress-beta.appspot.com',
+        measurementId: 'G-Q3PBDRW224',
+    };
+    firebase.initializeApp(firebaseConfig);
 
-firebase.initializeApp({
-  apiKey: 'AIzaSyB7wZb2tO1-Fs6GbDADUSTs2Qs3w08Hovw',
-  appId: '1:406099696497:web:87e25e51afe982cd3574d0',
-  messagingSenderId: '406099696497',
-  projectId: 'flutterfire-e2e-tests',
-  authDomain: 'flutterfire-e2e-tests.firebaseapp.com',
-  databaseURL:
-      'https://flutterfire-e2e-tests-default-rtdb.europe-west1.firebasedatabase.app',
-  storageBucket: 'flutterfire-e2e-tests.appspot.com',
-  measurementId: 'G-JN95N1JV2E',
-});
-// Necessary to receive background messages:
 const messaging = firebase.messaging();
 
+messaging.setBackgroundMessageHandler(function(payload) {
+
+    console.log("/////////////???");
+  const notificationTitle = payload.notification.title;
+  const notificationOptions = {
+    body: payload.notification.body,
+    icon: '/flutter_logo.png' // if you have a logo
+  };
+  self.registration.showNotification(notificationTitle, notificationOptions);
+});
+
+/*
+firebase.initializeApp({
+    apiKey: 'AIzaSyALSZ92G6sdeaylidr1Z65a6QbroZKMyDE',
+    appId: '1:423719724937:web:ccc2b55b5e145c32552358',
+    messagingSenderId: '423719724937',
+    projectId: 'wowpress-beta',
+    authDomain: 'wowpress-beta.firebaseapp.com',
+    storageBucket: 'wowpress-beta.appspot.com',
+    measurementId: 'G-Q3PBDRW224',
+});
+*/
+// Necessary to receive background messages:
+//const messaging = firebase.messaging();
+
 // Optional:
+/*
 messaging.onBackgroundMessage((payload) => {
+    console.log("ddd");
 
-    const username = localStorage.getItem('webDevNoti');
-
-    console.log('Received background message ', payload);
-    console.log('Received background message ', username);
-
+    const username = 'web test';
+    //const username = localStorage.getItem('webDevNoti');
+    //console.log('Received background message ', payload);
+    //console.log('Received background message ', username);
     // Customize notification details
     const notificationTitle = payload.notification.title;
+
     const notificationOptions = {
         body: payload.notification.body,
         icon: payload.notification.icon // Optional: you can customize this
@@ -35,7 +60,7 @@ messaging.onBackgroundMessage((payload) => {
 
     self.registration.showNotification(notificationTitle, notificationOptions);
 });
-
+*/
 /*
 messaging.onBackgroundMessage((m) => {
   console.log("onBackgroundMessage", m);

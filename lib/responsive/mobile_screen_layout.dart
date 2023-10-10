@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -30,67 +28,51 @@ class MobileScreenLayout extends ConsumerWidget{
     FlutterLocalNotification.init();
 
     final userProvider = ref.watch(notiUserProvider);
-    final layoutProvider = ref.watch(layoutWidgetProcessProvider);
-    if(userProvider == null) {
-      print("gogogo");
-      getUser(ref);
-    }
+    final layoutProvider = ref.watch(notiLayoutProvider);
 
-    print(userProvider);
-    print(userProvider);
-    print(userProvider);
-    print(userProvider);
-    print(userProvider);
-    print(userProvider);
-    print(userProvider);
-    //final subscribeProvider = ref.watch(subscribeWidgetProcessProvider);
+    if(userProvider == null)
+      getUser(ref);
 
     try {
-
       try {
         FirebaseMessaging.onBackgroundMessage(handleBackgroundMessage);
         FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-          logger.i("onMessage!!Lissten ${message.notification?.title}");
-          loggerNoStack.i('${message.data['notiType']}');
-          loggerNoStack.i('${message.data}');
-          loggerNoStack.i('${message.notification}');
-          print(message.data);
-          loggerNoStack.i(message);
-          loggerNoStack.i(ref.read(notiSubscribeProvider.notifier).getSubscribeOption.toMap()['${message.data['notiType']}']);
 
-          if(ref.read(notiSubscribeProvider.notifier).getSubscribeOption.toMap()['${message.data['notiType']}']!){
+          print("notiSubscribeProvider");
+          print("notiSubscribeProvider");
+          print("notiSubscribeProvider");
+
+          //if(ref.read(notiSubscribeProvider.notifier).getSubscribeOption.toMap()['${message.data['notiType']}']!){
             FlutterLocalNotification.showNotification(
               '${message.notification?.title}',
               '${message.notification?.body}',
             );
-          }
+          //}
         });
       }catch(e){
         loggerNoStack.e('firebase_api.dart FirebaseApi MessageException');
         logger.e(e.toString());
       }
-
     }catch(e){
       loggerNoStack.e("mobile_screen_layout.dart");
       logger.e(e.toString());
     }
 
     void layoutProvSetPage(int page){
-      final currentModel = layoutProvider;
-      final updatedModel = Layout(
-        pageController: currentModel.pageController,
+      final updateModel = Layout(
+        pageController: layoutProvider!.pageController,
         page: page,
-        name: currentModel.name,
-        file: currentModel.file,
+        name: layoutProvider!.name,
+        file: layoutProvider!.file,
       );
-      ref.read(layoutWidgetProcessProvider.notifier).state = updatedModel;
+      ref.read(notiLayoutProvider.notifier).state = updateModel;
     }
 
     return Scaffold(
       body:PageView(
         children: homeScreenItems,
         physics: const NeverScrollableScrollPhysics(),
-        controller: layoutProvider.pageController,
+        controller: layoutProvider!.pageController,
         onPageChanged: layoutProvSetPage,
         //setPaged: layoutProvider.setPage,
       ),

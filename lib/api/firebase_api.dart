@@ -33,7 +33,6 @@ class FirebaseApiInit{
 class FirebaseApi{
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
   Future<void> initNotifications() async {
-
       await _firebaseMessaging.requestPermission();
       await _firebaseMessaging.subscribeToTopic("notice");
       await _firebaseMessaging.subscribeToTopic("message");

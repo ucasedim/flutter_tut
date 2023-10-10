@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_tut/log/test_logger.dart';
+import 'package:flutter_tut/model/post_card_info.dart';
 import 'package:flutter_tut/providers/layout_widget_provider.dart';
 import 'package:flutter_tut/resources/firestore_mehtod.dart';
 import 'package:flutter_tut/screen/comment_screeen.dart';
@@ -22,30 +23,13 @@ class PostCard extends ConsumerWidget{
     required this.snap
   });
 
-  //LayoutWidgetProvider lp = LayoutWidgetProvider();
   bool isLikeAnimating = false;
   int commentLen = 0;
-  //getComments();
-
 
   @override
   Widget build(BuildContext context , WidgetRef ref) {
-    //final User user = Provider.of<UserProvider>(context).getUser;
-    //ref.watch(userProvider)!.refreshUser();
-    //final User user = ref.watch(userProvider)?.getUser;
-    //final User user = ref.watch(userProvider)?;
-
-    ref.read(notiUserProvider.notifier).refreshUser();
-    final user = ref.watch(notiUserProvider);
-    final layoutProv = ref.watch(layoutWidgetProcessProvider);
-
-
-    //ref.read(userInfoProcessProvider.notifier).state;
-
-    //final user = userProv.getUser;
-
-
-
+    final userProvider = ref.watch(notiUserProvider);
+    final postCardInfo = ref.watch(notiPostCardInfoProvider);
     final width = MediaQuery.of(context).size.width;
 
     void getComments() async{
@@ -59,7 +43,6 @@ class PostCard extends ConsumerWidget{
         showSnackBar(err.toString(), context);
       }
     }
-
 
     return Container(
       decoration: BoxDecoration(
@@ -127,20 +110,21 @@ class PostCard extends ConsumerWidget{
               ],
             ),
           ),
-
-          //Image Section
           GestureDetector(
             onDoubleTap: () async {
               await FirestoreMethod().likePost(
                   snap['postId'].toString(),
-                  user!.uid,
+                  userProvider!.uid,
                   snap['likes']
               );
-              /*
-              setState(() {
-                isLikeAnimating = true;
-              });
-              */
+              //like 안했는 사람인지?
+              //해당 게시글이 맞는지?
+
+              print('1234');
+              if(snap['likes'] != null && !snap['likes'].contains( userProvider?.uid )){
+                ref.read(notiPostCardInfoProvider.notifier).state = PostCardInfo(postId: snap['postId'] ,isLikeAnimating: true);
+              }
+              print('sssssssttttttttt ${ref.read(notiPostCardInfoProvider.notifier).getPostCardInfo!.isLikeAnimating}');
             },
             child: Stack(
               alignment: Alignment.center,
@@ -151,27 +135,22 @@ class PostCard extends ConsumerWidget{
                   child: Image.network(snap['postUrl'], fit: BoxFit.contain,),
                 ),
                 AnimatedOpacity(
-                  duration: const Duration(milliseconds: 200),
-                  opacity: isLikeAnimating? 1:0,
+                  duration: const Duration(milliseconds: 50),
+                  opacity: snap['postId'] == postCardInfo!.postId && postCardInfo!.isLikeAnimating? 1:0,
                   child: LikeAnimcation(
+                    isAnimating: postCardInfo!.isLikeAnimating,
                     child: const Icon(
                       Icons.favorite,
-                      color: Colors.white,
+                      color: Colors.red,
                       size: 130,
                     ),
-                    isAnimating: isLikeAnimating,
-                    duration: const Duration(milliseconds: 300),
+                    duration: const Duration(milliseconds: 500),
                     onEnd: () {
-                      /*
-                      setState(() {
-                        isLikeAnimating = false;
-                      });
-                      */
+                      ref.read(notiPostCardInfoProvider.notifier).state = PostCardInfo(isLikeAnimating: false);
                     },
                   ),
                 )
               ],
-
             ),
           ),
 
@@ -179,17 +158,17 @@ class PostCard extends ConsumerWidget{
           Row(
             children: [
               LikeAnimcation(
-                  isAnimating: snap['likes'] != null ? snap['likes'].contains( user?.uid )  : false,
+                  isAnimating: snap['likes'] != null ? snap['likes'].contains( userProvider?.uid )  : false,
                   smallLike: true,
                   child: IconButton(onPressed: ()async{
 
                     await FirestoreMethod().likePost(
                         snap['postId'].toString(),
-                        user!.uid,
+                        userProvider!.uid,
                         snap['likes']
                     );
 
-                  }, icon: snap['likes'].contains(user?.uid) ?  const Icon(
+                  }, icon: snap['likes'].contains(userProvider?.uid) ?  const Icon(
                     Icons.favorite ,
                     color: Colors.red,
                   ): const Icon(Icons.favorite_border)
@@ -237,7 +216,7 @@ class PostCard extends ConsumerWidget{
                       fontWeight: FontWeight.w800,
                     ),
                     child: Text(
-                      '${snap['likes']== null ? 0 : snap['likes'].length} likes' ,
+                      '${snap['likes']== null ? 0 : snap['likes'].length} likes ${postCardInfo!.isLikeAnimating}' ,
                       style: Theme.of(context).textTheme.labelMedium,
                     )
                 ),

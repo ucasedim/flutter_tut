@@ -32,8 +32,18 @@
   <title>flutter_tut</title>
   <link rel="manifest" href="manifest.json">
 
-  <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-messaging.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-messaging.js"></script>
+  <!--
+    <script src="https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.4.0/firebase-messaging.js"></script>
+  -->
+  <!--
+    <script src="https://www.gstatic.com/firebasejs/9.10.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.10.0/firebase-messaging-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.10.0/firebase-database.js"></script>
+  -->
+
   <script>
     // The value below is injected by flutter build, do not touch.
     const serviceWorkerVersion = null;
@@ -42,21 +52,20 @@
   <script src="flutter.js" defer></script>
 </head>
 <body>
-  <script type="text/javascript">
-  /*
+<script type="text/javascript">
     const firebaseConfig = {
-      apiKey: 'AIzaSyAcWf7-fdnB2LdWBVMocLWsaeSIpA3NEiA',
-      appId: '1:949694906192:web:c74d351b841e7e3fd53655',
-      messagingSenderId: '949694906192',
-      projectId: 'instragram-tutc',
-      authDomain: 'instragram-tutc.firebaseapp.com',
-      databaseURL: 'https://instragram-tutc-default-rtdb.asia-southeast1.firebasedatabase.app',
-      storageBucket: 'instragram-tutc.appspot.com',
+        apiKey: 'AIzaSyALSZ92G6sdeaylidr1Z65a6QbroZKMyDE',
+        appId: '1:423719724937:web:ccc2b55b5e145c32552358',
+        messagingSenderId: '423719724937',
+        projectId: 'wowpress-beta',
+        authDomain: 'wowpress-beta.firebaseapp.com',
+        storageBucket: 'wowpress-beta.appspot.com',
+        measurementId: 'G-Q3PBDRW224',
     };
-  */
-    //firebase.initializeApp(firebaseConfig);
+    firebase.initializeApp(firebaseConfig);
   </script>
-  <script>
+<script>
+  <!--
     window.addEventListener('load', function(ev) {
       // Download main.dart.js
       _flutter.loader.loadEntrypoint({
@@ -70,6 +79,7 @@
         }
       });
     });
+    -->
   </script>
 </body>
 </html>

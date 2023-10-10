@@ -230,9 +230,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   loggerNoStack.e(snapshot);
                   loggerNoStack.e(snapshot.data);
                   final documents = snapshot.data?.docs;
-
                   return GridView.builder(
                       shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
                       itemCount: documents == null ? 0 : documents.length,
                       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 3,

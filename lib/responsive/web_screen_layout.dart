@@ -1,78 +1,125 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:flutter_tut/api/firebase_api.dart';
 import 'package:flutter_tut/api/firebase_web_api.dart';
-import 'package:flutter_tut/providers/layout_widget_provider.dart';
-import 'package:flutter_tut/providers/subscribe_widget_provider.dart';
-import 'package:flutter_tut/providers/user_provider.dart';
+import 'package:flutter_tut/api/notification.dart';
+import 'package:flutter_tut/log/test_logger.dart';
+import 'package:flutter_tut/model/layout.dart';
+import 'package:flutter_tut/resources/auth_methods.dart';
 import 'package:flutter_tut/utils/colors.dart';
 import 'package:flutter_tut/utils/global_variables.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class WebScreenLayout extends ConsumerWidget{
 
-  var lp = null;
-  var _swp = null;
-
-  void navigationTapped(int page){
-    lp.getPageController().jumpToPage(page);
+  void initMobileNotification() async {
+    await FirebaseWebApi().initNotifications();
   }
 
-  void initWebNotification() async {
-    await FirebaseApiInit().init();
-  }
-
-  void initFirebaseMessaging(BuildContext context){
-
-    print("firebase init");
-    /*
-    FirebaseMessaging.onBackgroundMessage(handleBackgroundWebMessage);
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      print('Got a message whilst in the foreground!');
-      print('Message data: ${message.data}');
-
-      if (message.notification != null) {
-        print('Message also contained a notification: ${message.notification}');
-        print(
-            'Message also contained a notification: ${message.data['notiType']}');
-        print(_swp.option.toMap().containsKey('${message.data['notiType']}'));
-
-        if(_swp.option.toMap()['${message.data['notiType']}']!){
-          flutterLocalNotificationsPlugin.show(
-              1,
-              '${message.notification?.title}',
-              '${message.notification?.body}',
-              null);
-        }
-        contextPush();
-      }
-    });
-     */
-  }
-
-
-  Future<void> saveToSharedPreferencesAndLocalStorage(String key, String value) async {
-    // Saving to shared_preferences
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(key, value);
-
-    // Mirroring to localStorage
-    //html.window.localStorage[key] = value;
+  getUser(WidgetRef ref) async{
+    ref.read(notiUserProvider.notifier).state = await AuthMethods().getUserDetails();
   }
 
   @override
   Widget build(BuildContext context , WidgetRef ref) {
-    print("????????????");
-    initFirebaseMessaging(context);
-    saveToSharedPreferencesAndLocalStorage('webDevNoti' , 'true');
-    lp = ref.watch(layoutWidgetProcessProvider);
-    //_swp = ref.watch(subscribeWidgetProcessProvider);
+    initMobileNotification();
+    //FlutterLocalNotification.init();
 
+    final userProvider = ref.watch(notiUserProvider);
+    final layoutProvider = ref.watch(notiLayoutProvider);
+
+    if(userProvider == null)
+      getUser(ref);
+
+
+    try {
+      try {
+        /*
+        FirebaseMessaging.onBackgroundMessage(handleBackgroundWebMessage);
+        FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+          if(ref.read(notiSubscribeProvider.notifier).getSubscribeOption.toMap()['${message.data['notiType']}']!){
+            FlutterLocalNotification.showNotification(
+              '${message.notification?.title}',
+              '${message.notification?.body}',
+            );
+          }
+        });
+        */
+      }catch(e){
+        loggerNoStack.e('firebase_api.dart FirebaseApi MessageException');
+        logger.e(e.toString());
+      }
+    }catch(e){
+      loggerNoStack.e("mobile_screen_layout.dart");
+      logger.e(e.toString());
+    }
+
+    void layoutProvSetPage(int page){
+      final updateModel = Layout(
+        pageController: layoutProvider!.pageController,
+        page: page,
+        name: layoutProvider!.name,
+        file: layoutProvider?.file,
+      );
+      ref.read(notiLayoutProvider.notifier).state = updateModel;
+    }
+    return Scaffold(
+      body:PageView(
+        children: homeScreenItems,
+        physics: const NeverScrollableScrollPhysics(),
+        controller: layoutProvider!.pageController,
+        onPageChanged: layoutProvSetPage,
+        //setPaged: layoutProvider.setPage,
+      ),
+      bottomNavigationBar: CupertinoTabBar(
+        backgroundColor: mobileBackgroundColor,
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.home,
+              color: layoutProvider.page == 0 ? primaryColor : secondaryColor,
+            ),
+            label: '',
+            backgroundColor: primaryColor,
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.search,
+              color: layoutProvider.page == 1 ? primaryColor : secondaryColor,
+            ),
+            label: '',
+            backgroundColor: primaryColor,
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.add_circle,
+              color: layoutProvider.page == 2 ? primaryColor : secondaryColor,
+            ),
+            label: '',
+            backgroundColor: primaryColor,
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.favorite,
+              color: layoutProvider.page == 3 ? primaryColor : secondaryColor,
+            ),
+            label: '',
+            backgroundColor: primaryColor,
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.person,
+              color: layoutProvider.page == 4 ? primaryColor : secondaryColor,
+            ),
+            label: '',
+            backgroundColor: primaryColor,
+          ),
+        ],
+        onTap: layoutProvider.navigationTapped,
+      ),
+    );
+    /*
     return Scaffold(
         appBar: AppBar(
           backgroundColor: mobileBackgroundColor,
@@ -112,7 +159,7 @@ class WebScreenLayout extends ConsumerWidget{
           onPageChanged: lp.setPage,
         )
     );
-
+    */
   }
 
 }

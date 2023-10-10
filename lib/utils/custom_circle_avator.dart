@@ -32,8 +32,8 @@ class _CustomCircleAvatarState extends State<CustomCircleAvatar> {
   @override
   void initState() {
     super.initState();
-    logger.i("widget.srcNetworkImage");
-    logger.i(widget.srcNetworkImage);
+    //logger.i("widget.srcNetworkImage");
+    //logger.i(widget.srcNetworkImage);
     _radius = widget.radius;
 
     _srcNetworkImage = widget.srcNetworkImage;
@@ -59,51 +59,21 @@ class _CustomCircleAvatarState extends State<CustomCircleAvatar> {
         // HTTP 응답 처리
         if (response.statusCode == 200) {
           // 성공적인 응답 처리
-          print("Success: ${response.statusCode}");
-          print("uri :  ${_srcNetworkImage}");
+          //print("Success: ${response.statusCode}");
+          //print("uri :  ${_srcNetworkImage}");
           _currentImage = NetworkImage(_srcNetworkImage);
         } else {
           // 응답 상태 코드에 따른 처리
-          print("HTTP Error: ${response.statusCode}");
+          //print("HTTP Error: ${response.statusCode}");
           _currentImage = AssetImage(_srcAssetsImage);
         }
       });
     } catch (e) {
       // "No host specified in URI" 예외 처리
-      print("Error: $e");
+      logger.e("Error: $e");
       _currentImage = AssetImage(_srcAssetsImage);
     }
     return CircleAvatar(radius: _radius ,backgroundImage: _currentImage);
-
-    /*
-    return FutureBuilder(
-      future: _loadImage(),
-      builder: (BuildContext context, AsyncSnapshot<ImageProvider?> snapshot) {
-        if (snapshot.connectionState == ConnectionState.done) {
-          if (snapshot.hasError) {
-            // 오류가 발생한 경우, 에러 처리 또는 대체 이미지를 표시할 수 있습니다.
-            logger.i("eeeeeeeeeeeeeee");
-            logger.i("eeeeeeeeeeeeeee");
-            logger.i("eeeeeeeeeeeeeee");
-            logger.i("eeeeeeeeeeeeeee");
-            logger.i("eeeeeeeeeeeeeee");
-            return Text('url');
-          } else {
-            // 이미지가 로드된 경우 이미지를 표시합니다.
-            return CircleAvatar(
-              radius: _radius,
-              backgroundColor: Colors.transparent,
-              backgroundImage: snapshot.data,
-            );
-          }
-        } else {
-          // 이미지 로딩 중에는 로딩 인디케이터를 표시합니다.
-          return CircularProgressIndicator();
-        }
-      },
-    );
-
-     */
   }
 
   Future<ImageProvider?> _loadImage() async {
@@ -113,7 +83,7 @@ class _CustomCircleAvatarState extends State<CustomCircleAvatar> {
       return networkImage;
     } catch (e) {
       // "no host specified in URI" 오류가 발생한 경우, 에러 처리 또는 대체 이미지를 반환합니다.
-      print("Error loading network image: $e");
+      logger.e("Error loading network image: $e");
       return null; // 또는 에러 처리를 원하는 방식으로 변경할 수 있습니다.
     }
   }
