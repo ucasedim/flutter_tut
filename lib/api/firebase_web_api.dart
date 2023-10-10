@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter_tut/api/notification.dart';
 import 'package:http/http.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -17,6 +18,7 @@ class FirebaseWebApi{
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
   Future<void> initNotifications() async {
     try {
+      print('web api init call');
       _requestPermission();
       _getToken();
       _listenForMessages();
@@ -89,6 +91,19 @@ class FirebaseWebApi{
   _listenForMessages() {
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       print('Got a message: ${message.data}');
+      print('Got a message: ${globalSubscribeOption!.mainNoti}');
+
+      if(globalSubscribeOption!.toMap().containsKey(message.data['notiType'])){
+        print("ok message");
+        FirebaseMessaging.onBackgroundMessage(handleBackgroundWebMessage);
+        FlutterLocalNotification.showNotification(
+          '${message.notification?.title}',
+          '${message.notification?.body}',
+        );
+      }
+      //logger.i('firebase_api handleBackgroundMessage call');
+      //logger.i("background : SubscribeWidgetProvider().option.toMap().containsKey('${message.data['notiType']}");
+
     });
   }
 

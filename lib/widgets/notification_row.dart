@@ -20,6 +20,8 @@ class SubscribeRow extends ConsumerWidget {
     final userProvider = await ref.watch(notiUserProvider.notifier).getUser;
     final subscribeProvider = await ref.watch(notiSubscribeProvider.notifier).getSubscribeOption;
 
+    globalSubscribeOption = subscribeProvider;
+
     return Padding(
       padding: EdgeInsets.all(10),
       child: Row(
@@ -51,6 +53,9 @@ class SubscribeRow extends ConsumerWidget {
                 ref.read(notiSubscribeProvider.notifier).setSubscribeOption(notificationKey, value, userProvider!.uid);
                 print("af lgg : ${subscribeProvider?.toMap()}");
                 ref.read(notiSubscribeProvider.notifier).state = ref.read(notiSubscribeProvider.notifier).getSubscribeOption;
+
+
+
               },
             ),
           ),

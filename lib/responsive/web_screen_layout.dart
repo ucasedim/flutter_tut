@@ -19,6 +19,7 @@ class WebScreenLayout extends ConsumerWidget{
 
   getUser(WidgetRef ref) async{
     ref.read(notiUserProvider.notifier).state = await AuthMethods().getUserDetails();
+    await ref.read(notiSubscribeProvider.notifier).setSubscribeOptionFromFirebase();
   }
 
   @override
@@ -28,10 +29,10 @@ class WebScreenLayout extends ConsumerWidget{
 
     final userProvider = ref.watch(notiUserProvider);
     final layoutProvider = ref.watch(notiLayoutProvider);
+    //globalSubscribeOption = ref.read(notiSubscribeProvider.notifier).getSubscribeOption;
 
     if(userProvider == null)
       getUser(ref);
-
 
     try {
       try {

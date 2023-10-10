@@ -47,9 +47,6 @@ final notiPostCardInfoProvider = StateNotifierProvider<PostCardProvider , PostCa
     PostCardInfo(isLikeAnimating: false)
 ));
 
-//final layoutWidgetProvider = StateProvider<Layout>((ref) => Layout(file: null, name: '', page: 0, pageController: PageController()));
-//final notiLayoutProvider =
-
 /*
 * 메인페이지에서 사용하는 화면 리스트
 * Change 값에 따라 화면 호출
@@ -77,3 +74,5 @@ bool isComp0Noti = true;
 bool isComp1Noti = true;
 bool isComp2Noti = true;
 bool isComp3Noti = true;
+
+SubscribeOption? globalSubscribeOption;

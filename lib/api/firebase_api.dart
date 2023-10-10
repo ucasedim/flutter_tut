@@ -18,9 +18,19 @@ import '../log/test_logger.dart';
 import 'notification.dart';
 
 Future<void> handleBackgroundMessage(RemoteMessage message)  async{
-  logger.i('firebase_api handleBackgroundMessage call');
-  logger.i("background : SubscribeWidgetProvider().option.toMap().containsKey('${message.data['notiType']}");
 
+  logger.i('firebase_api handleBackgroundMessage call ${globalSubscribeOption!.toMap()}');
+  logger.i("background : SubscribeWidgetProvider().option.toMap().containsKey('${message.data['notiType']}");
+  logger.i("background : globalSubscribeOption.toMap()['${message.data['notiType']}'] ${globalSubscribeOption!.toMap()['${message.data['notiType']}']}");
+/*
+  if(
+  globalSubscribeOption!.toMap().containsKey('${message.data['notiType']}')
+      && globalSubscribeOption!.toMap()['${message.data['notiType']}']!
+  ){
+
+  }else{
+    return;
+  }*/
 }
 
 class FirebaseApiInit{
@@ -32,10 +42,21 @@ class FirebaseApiInit{
 
 class FirebaseApi{
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
+
+  Future<void> subscribeToTopic(String topic) async {
+    logger.i("subscribe : ${topic}");
+    await _firebaseMessaging.subscribeToTopic(topic);
+  }
+
+  Future<void> unsubscribeToTopic(String topic) async {
+    logger.i("unsubscribe : ${topic}");
+    await _firebaseMessaging.unsubscribeFromTopic(topic);
+  }
+
   Future<void> initNotifications() async {
       await _firebaseMessaging.requestPermission();
-      await _firebaseMessaging.subscribeToTopic("notice");
-      await _firebaseMessaging.subscribeToTopic("message");
+      //await _firebaseMessaging.subscribeToTopic("notice");
+      //await _firebaseMessaging.subscribeToTopic("message");
       final FCMToken = await _firebaseMessaging.getToken();
 
       logger.i('FirebaseApi Token : ${FCMToken}');
