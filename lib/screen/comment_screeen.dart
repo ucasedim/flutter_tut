@@ -1,55 +1,45 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_tut/resources/auth_methods.dart';
+import 'package:flutter_tut/resources/firestore_mehtod.dart';
 import 'package:flutter_tut/utils/colors.dart';
+import 'package:flutter_tut/utils/custom_circle_avator.dart';
+import 'package:flutter_tut/utils/global_variables.dart';
+import 'package:flutter_tut/widgets/comment_card.dart';
+class CommentsScreen extends ConsumerWidget {
 
-import '../model/user.dart';
-import '../providers/user_provider.dart';
-import '../resources/firestore_mehtod.dart';
-import '../widgets/comment_card.dart';
-
-class CommentsScreen extends StatefulWidget {
   final snap;
-  const CommentsScreen({super.key,
-  required this.snap});
 
-  @override
-  State<CommentsScreen> createState() => _CommentsScreenState();
-}
-
-class _CommentsScreenState extends State<CommentsScreen> {
+  CommentsScreen({
+    super.key,
+    required this.snap
+  });
 
   final TextEditingController _commentController = TextEditingController();
 
-
-  @override
-  void dispose() {
-    super.dispose();
-    _commentController.dispose();
+  getUser(WidgetRef ref) async{
+    ref.read(notiUserProvider.notifier).state = await AuthMethods().getUserDetails();
   }
 
   @override
-  Widget build(BuildContext context) {
-
+  Widget build(BuildContext context , WidgetRef ref) {
     //final User user = Provider.of<UserProvider>(context).getUser;
-    final User user = User(
-        uid: '',
-        username: '',
-        photoUrl: '',
-        following: [],
-        followers: [],
-        email: '',
-        bio: '');
+    //_commentController.dispose();
+    final user = ref.watch(notiUserProvider);
+    if(user == null) getUser(ref);
+
 
     return Scaffold(
       appBar: AppBar(
           backgroundColor: mobileBackgroundColor,
-          title: const Text('comment'),
+          title: const Text('댓글'),
           centerTitle: false,
         ),
         body: StreamBuilder(
           stream: FirebaseFirestore.instance
             .collection('posts')
-            .doc(widget.snap['postId'])
+            .doc(snap['postId'])
             .collection('comments')
             .orderBy('datePublished', descending: false)
             .snapshots(),
@@ -59,6 +49,23 @@ class _CommentsScreenState extends State<CommentsScreen> {
                 child: CircularProgressIndicator(),
               );
             }
+
+            if((snapshot.data! as dynamic).docs.length == 0){
+              return
+              const Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Center(
+                    child: Text('아직 댓글이 없습니다' , style: TextStyle(fontSize: 25 , fontWeight: FontWeight.bold)),
+                  ),
+                  const Center(
+                    child: Text('댓글을 남겨보세요' , style: TextStyle(fontSize: 15),),
+                  ),
+                ],
+              );
+            }
+
             return ListView.builder(
               itemCount: (snapshot.data! as dynamic).docs.length ,
             itemBuilder: (context, index) => CommentCard(
@@ -76,14 +83,10 @@ class _CommentsScreenState extends State<CommentsScreen> {
             padding: const EdgeInsets.only(left: 16 , right: 8),
             child: Row(
               children: [
-                CircleAvatar(
-                  backgroundImage:
-                  user != null && user.photoUrl.isNotEmpty?
-                  NetworkImage(user.photoUrl)
-                  :
-                  NetworkImage('https://images.unsplash.com/photo-1606041008023-472dfb5e530f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1976&q=80')
-                  ,
-                  radius:18,
+                CustomCircleAvatar(
+                  radius: 18,
+                  srcNetworkImage: user!.photoUrl,
+                  srcAssetsImage: defaultUserProfilePath,
                 ),
                 Expanded(
                   child: Padding(
@@ -91,7 +94,7 @@ class _CommentsScreenState extends State<CommentsScreen> {
                     child: TextField(
                       controller: _commentController,
                       decoration: InputDecoration(
-                        hintText: 'comment as ${user.username}',
+                        hintText: '${user!.username}로 댓글쓰기',
                         border: InputBorder.none,
                       ),
                     ),
@@ -100,20 +103,18 @@ class _CommentsScreenState extends State<CommentsScreen> {
                 InkWell(
                   onTap: () async{
                     await FirestoreMethod().postComment(
-                      widget.snap['postId'],
+                      snap['postId'],
                       _commentController.text,
-                      user.uid,
-                      user.username,
-                      user.photoUrl);
-
-                    setState(() {
+                      user!.uid,
+                      user!.username,
+                      user!.photoUrl);
                       _commentController.text = "";
-                    });
                   },
                   child: Container(
                     padding: const EdgeInsets.symmetric(vertical: 8 , horizontal: 8,),
-                    child: const Text('Post' , style: TextStyle(
+                    child: const Text('게시' , style: TextStyle(
                         color: blueColor,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                   ),

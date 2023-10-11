@@ -1,11 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_tut/api/firebase_api.dart';
 import 'package:flutter_tut/model/SubscribeOption.dart';
-import 'package:flutter_tut/model/user.dart';
-import 'package:flutter_tut/providers/user_provider.dart';
 import 'package:flutter_tut/resources/auth_methods.dart';
 import 'package:flutter_tut/resources/firestore_mehtod.dart';
 import 'package:flutter_tut/utils/global_variables.dart';
@@ -18,31 +14,26 @@ class SubscribeWidgetProvider extends StateNotifier<SubscribeOption?> {
 
 
   Future<void> setSubscribeOptionFromFirebase() async {
-    print("option : ${option}");
     SubscribeOption? so = await AuthMethods().getSubscribeOption();
     option = so;
-    print("option : ${option}");
+    globalSubscribeOption = (option ??
+                              SubscribeOption(
+                                mainNoti: true,
+                                newPostNoti: false,
+                                webDevNoti: false,
+                                accountNoti: false,
+                                designNoti: false,
+                                mdNoti: false
+                              ))!;
 
-    globalSubscribeOption = (option != null
-        ? option
-        : SubscribeOption(
-            mainNoti: true,
-            newPostNoti: false,
-            webDevNoti: false,
-            accountNoti: false,
-            designNoti: false,
-            mdNoti: false))!;
-
-    if(so!=null){
+    so ??
       globalSubscribeOption!.toMap().forEach((key, value) {
-        if(value) {
+        if(value){
           FirebaseApi().subscribeToTopic(key);
         }else{
           FirebaseApi().unsubscribeToTopic(key);
         }
       });
-    }
-
   }
 
   Future<void> setSubscribeOptionFromSnapshot(DocumentSnapshot snap) async {

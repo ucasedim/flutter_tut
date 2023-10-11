@@ -75,4 +75,10 @@ bool isComp1Noti = true;
 bool isComp2Noti = true;
 bool isComp3Noti = true;
 
-SubscribeOption? globalSubscribeOption;
+SubscribeOption? globalSubscribeOption = SubscribeOption(
+    mainNoti: true,
+    newPostNoti: false,
+    webDevNoti: false,
+    accountNoti: false,
+    designNoti: false,
+    mdNoti: false);

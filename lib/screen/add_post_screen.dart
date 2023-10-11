@@ -40,11 +40,7 @@ class AddPostScreen extends ConsumerWidget {
         String username,
         String profImage,
         BuildContext context) async {
-      /*
-    setState(() {
-      _isLoading=true;
-    });
-     */
+
       try {
         String res = await FirestoreMethod().uploadPost(
             _descriptionController.text,
@@ -218,6 +214,5 @@ class AddPostScreen extends ConsumerWidget {
         ],
       ),
     );
-
   }
 }

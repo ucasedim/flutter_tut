@@ -1,18 +1,13 @@
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_tut/log/test_logger.dart';
 import 'package:flutter_tut/main.dart';
-import 'package:flutter_tut/screen/home_screen.dart';
+import 'package:flutter_tut/resources/auth_methods.dart';
 import 'package:flutter_tut/screen/signup_screen.dart';
 import 'package:flutter_tut/utils/colors.dart';
 import 'package:flutter_tut/utils/global_variables.dart';
 import 'package:flutter_tut/utils/utils.dart';
-import '../resources/auth_methods.dart';
-import '../widgets/text_field_input.dart';
-import '../log/test_logger.dart';
-import '../responsive/mobile_screen_layout.dart';
-import '../responsive/responsive_layout.dart';
-import '../responsive/web_screen_layout.dart';
+import 'package:flutter_tut/widgets/text_field_input.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -56,6 +51,7 @@ class _LoginScreenState extends State<LoginScreen> {
     );
 
     loggerNoStack.i('res result : $res');
+
     if(res == "success"){
         showSnackBar(res, context);
         Navigator.of(context).push(

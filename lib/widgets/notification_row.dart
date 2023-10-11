@@ -1,9 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_tut/model/user.dart';
-import 'package:flutter_tut/providers/subscribe_widget_provider.dart';
-import 'package:flutter_tut/providers/user_provider.dart';
 import 'package:flutter_tut/utils/global_variables.dart';
 
 class SubscribeRow extends ConsumerWidget {

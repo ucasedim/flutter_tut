@@ -2,7 +2,6 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_tut/api/firebase_api.dart';
-import 'package:flutter_tut/api/firebase_web_api.dart';
 import 'package:flutter_tut/api/notification.dart';
 import 'package:flutter_tut/model/layout.dart';
 import 'package:flutter_tut/resources/auth_methods.dart';
@@ -32,16 +31,9 @@ class MobileScreenLayout extends ConsumerWidget{
     initMobileNotification();
     getSubscribe(ref);
     FlutterLocalNotification.init();
-
     final userProvider = ref.watch(notiUserProvider);
     final layoutProvider = ref.watch(notiLayoutProvider);
     final subscribeProvider = ref.watch(notiSubscribeProvider);
-
-    print(globalSubscribeOption!.mainNoti);
-    print(globalSubscribeOption!.newPostNoti);
-    print(globalSubscribeOption!.webDevNoti);
-    print(globalSubscribeOption!.accountNoti);
-    print(globalSubscribeOption!.designNoti);
 
     if(userProvider == null) getUser(ref);
 
@@ -50,16 +42,12 @@ class MobileScreenLayout extends ConsumerWidget{
 
         FirebaseMessaging.onBackgroundMessage(handleBackgroundMessage);
         FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-
-          print("notiSubscribeProvider${message.data['notiType']}");
-          print("notiSubscribeProvider${globalSubscribeOption!.toMap()}");
-          print("notiSubscribeProvider ${globalSubscribeOption!.toMap()['${message.data['notiType']}']!}");
-
+          loggerNoStack.i("mobileScreenLayout FirebaseMessaging on Message Listen");
           if(
           globalSubscribeOption!.toMap().containsKey('${message.data['notiType']}')
           && globalSubscribeOption!.toMap()['${message.data['notiType']}']!
           ){
-            print("NOTI!!");
+            loggerNoStack.i("mobileScreenLayout FirebaseMessaging on Message Listen Pass NotiType");
             FlutterLocalNotification.showNotification(
               '${message.notification?.title}',
               '${message.notification?.body}',

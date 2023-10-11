@@ -1,13 +1,9 @@
 import 'dart:typed_data';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter_tut/log/test_logger.dart';
+import 'package:flutter_tut/model/post.dart';
 import 'package:flutter_tut/resources/storage_methods.dart';
-import 'package:flutter_tut/utils/utils.dart';
 import 'package:uuid/uuid.dart';
-
-import '../log/test_logger.dart';
-import '../model/post.dart';
 
 class FirestoreMethod {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;

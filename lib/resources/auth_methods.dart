@@ -1,14 +1,11 @@
 import 'dart:typed_data';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter_tut/log/test_logger.dart';
 import 'package:flutter_tut/model/SubscribeOption.dart';
-import 'package:logger/logger.dart';
-
-import '../log/test_logger.dart';
-import '../model/user.dart' as model;
+import 'package:flutter_tut/model/user.dart' as model;
 import 'storage_methods.dart';
+
 
 
 class AuthMethods {

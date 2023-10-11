@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_tut/providers/user_provider.dart';
+import 'package:flutter_tut/utils/custom_circle_avator.dart';
+import 'package:flutter_tut/utils/global_variables.dart';
 import 'package:intl/intl.dart';
-
-import '../model/user.dart';
-
 
 class CommentCard extends StatefulWidget {
   final snap;
@@ -13,22 +11,16 @@ class CommentCard extends StatefulWidget {
   @override
   State<CommentCard> createState() => _CommentCardState();
 }
-
 class _CommentCardState extends State<CommentCard> {
   @override
   Widget build(BuildContext context) {
-    return Text('error');
-    /*
-    final User user = Provider.of<UserProvider>(context).getUser;
-
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 16),
       child: Row(
         children: [
-          CircleAvatar(
-            backgroundImage:
-            NetworkImage(widget.snap['profilePic']),
-            radius: 18,
+          CustomCircleAvatar(radius: 18,
+              srcNetworkImage: widget.snap['profilePic'],
+              srcAssetsImage: defaultUserProfilePath,
           ),
           Expanded(
             child: Padding(
@@ -40,37 +32,23 @@ class _CommentCardState extends State<CommentCard> {
                     Row(
                       children: [
                         Text(
-                          widget.snap['name'],
+                          widget.snap['name'] == '' ? '이름없음': widget.snap['name'],
                           style: const TextStyle(fontWeight: FontWeight.bold),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 5),
-                          child: Text(
-                            widget.snap['text'],
-                          ),
-                        )
                       ],
                     ),
-                    RichText(text: TextSpan(
-                      children: [
-                        TextSpan(
-                          text: widget.snap['name'] + '111111',
-                          style: const TextStyle(fontWeight: FontWeight.bold, ),
-                        ),
-                        TextSpan(
-                          text: widget.snap['text'] ,
-                        ),
-                      ]
+                    RichText(
+                      text: TextSpan(
+                        children: [
+                          TextSpan(
+                            text: widget.snap['text'] ,
+                          ),
+                        ]
                       ),
                     ),
                     Padding(padding: EdgeInsets.only(top: 4),
                       child: Text(
-                        DateFormat.yMMMd().format(
-                          widget.snap['datePublished'] != null?
-                          widget.snap['datePublished'].toDate()
-                          :
-                          DateTime.now(),
-                        ),
+                        DateFormat('y년 M월 d일').format( widget.snap['datePublished'] == null ? DateTime.now() : widget.snap['datePublished'].toDate() ),
                         style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.w400,
@@ -88,6 +66,5 @@ class _CommentCardState extends State<CommentCard> {
         ],
       ),
     );
-     */
   }
 }

@@ -1,10 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tut/utils/colors.dart';
-import 'package:flutter_tut/utils/utils.dart';
-
-import '../utils/global_variables.dart';
-
 class AppNotificationSettings extends StatefulWidget {
   const AppNotificationSettings({super.key});
 

@@ -1,10 +1,5 @@
-import 'dart:typed_data';
-
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_tut/log/test_logger.dart';
 import 'package:flutter_tut/model/layout.dart';
-import 'package:flutter_tut/utils/global_variables.dart';
 
 class LayoutWidgetProvider extends StateProvider<Layout?>{
 

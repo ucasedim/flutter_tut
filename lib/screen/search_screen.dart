@@ -1,13 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_tut/log/test_logger.dart';
 import 'package:flutter_tut/screen/profile_screen.dart';
 import 'package:flutter_tut/utils/colors.dart';
-import 'package:flutter_tut/utils/utils.dart';
-
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-
-import '../log/test_logger.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -64,7 +59,6 @@ class _SearchScreenState extends State<SearchScreen> {
               child: CircularProgressIndicator(),
             );
           }
-
           return ListView.builder(
               itemCount: (snapshot.data! as dynamic).docs.length,
               itemBuilder: (context, index){
