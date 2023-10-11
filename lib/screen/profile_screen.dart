@@ -84,16 +84,49 @@ class _ProfileScreenState extends State<ProfileScreen> {
               userData['username'] != null ? userData['username'] : '???ERROR???'
           ),
           actions: [
+            /*
             IconButton(
                 onPressed: (){
-                  setState(() {
-                    _page = 1;
-                  });
+                    setState(() {
+                      _page = 1;
+                    });
                   },
-                icon: Icon(Icons.notifications_active)
+                icon: Icon(Icons.notification_add)
             ),
+            */
             IconButton(
-                onPressed: (){},
+                onPressed: (){
+                  showDialog(context: context, builder: (context)=>Dialog(
+                    child: ListView(
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      shrinkWrap: true,
+                      children: [
+                        '로그아웃'
+                      ].map((e) => InkWell(
+                          onTap: () async {
+                            switch(e){
+                              case '로그아웃':
+                                await AuthMethods().signOut();
+                                Navigator
+                                    .of(context)
+                                    .pushReplacement(
+                                  MaterialPageRoute(
+                                    builder: (context) => const LoginScreen(),
+                                  ),
+                                );
+                                break;
+                            }
+                            showSnackBar(e, context);
+                          },
+                          child:Container(
+                            padding: const EdgeInsets.symmetric(vertical: 12 , horizontal: 16),
+                            child: Text(e),
+                          )
+                      ),
+                      ).toList(),
+                    ),
+                  ),);
+                },
                 icon: Icon(Icons.menu)
             ),
           ],
@@ -124,63 +157,100 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               buildStatColumn(following , "팔로잉"),
                             ],
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              FirebaseAuth.instance.currentUser!.uid == widget.uid ?
-                              FollowButton(
-                                //text: 'Edit Profile',
-                                text: '로그아웃',
-                                backgroundColor: mobileBackgroundColor,
-                                textColor: primaryColor,
-                                borderColor: Colors.grey,
-                                function: () async {
-                                  await AuthMethods().signOut();
-                                  Navigator
-                                      .of(context)
-                                      .pushReplacement(
-                                    MaterialPageRoute(
-                                      builder: (context) => const LoginScreen(),
-                                    ),
-                                  );
-                                },
-                              ):isFollowing ? FollowButton(
-                                text: 'UnFollower',
-                                backgroundColor: Colors.white,
-                                textColor: Colors.black,
-                                borderColor: Colors.grey,
-                                function: () async {
-                                  await FirestoreMethod().followUser(
-                                      FirebaseAuth.instance.currentUser!.uid,
-                                      userData['uid']
-                                  );
-                                  setState(() {
-                                    isFollowing = false;
-                                    followers--;
-                                  });
-                                },
-                              ):FollowButton(
-                                text: 'Follower',
-                                backgroundColor: Colors.blue,
-                                textColor: Colors.white,
-                                borderColor: Colors.blue,
-                                function: () async {
-                                  await FirestoreMethod().followUser(
-                                      FirebaseAuth.instance.currentUser!.uid,
-                                      userData['uid']
-                                  );
-                                  setState(() {
-                                    isFollowing = true;
-                                    following++;
-                                  });
-                                },
-                              ),
-                            ],
-                          ),
                         ],
                       ),
                     ),
-
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    FirebaseAuth.instance.currentUser!.uid == widget.uid ?
+                    (
+                      Row(
+                        children: [
+                          FollowButton(
+                            text: '프로필 편집',
+                            backgroundColor: mobileBackgroundColor,
+                            textColor: Colors.white,
+                            borderColor: Colors.grey,
+                            function: () {},
+                          ),
+                          FollowButton(
+                            text: '알림 설정',
+                            backgroundColor: mobileBackgroundColor,
+                            textColor: Colors.white,
+                            borderColor: Colors.grey,
+                            function: () {
+                              setState(() {
+                                _page = 1;
+                              });
+                            },
+                          )
+                        ],
+                      )
+                    ):(
+                        Row(
+                          children: [
+                            isFollowing ? FollowButton(
+                              text: '팔로우 취소',
+                              backgroundColor: mobileBackgroundColor,
+                              textColor: Colors.white,
+                              borderColor: Colors.grey,
+                              function: () async {
+                                await FirestoreMethod().followUser(
+                                    FirebaseAuth.instance.currentUser!.uid,
+                                    userData['uid']
+                                );
+                                setState(() {
+                                  isFollowing = false;
+                                  followers--;
+                                });
+                              },
+                            ):FollowButton(
+                              text: '팔로우',
+                              backgroundColor: Colors.blue,
+                              textColor: Colors.white,
+                              borderColor: Colors.blue,
+                              function: () async {
+                                await FirestoreMethod().followUser(
+                                    FirebaseAuth.instance.currentUser!.uid,
+                                    userData['uid']
+                                );
+                                setState(() {
+                                  isFollowing = true;
+                                  following++;
+                                });
+                              },
+                            ),
+                            FollowButton(
+                              text: '메세지',
+                              backgroundColor: mobileBackgroundColor,
+                              textColor: Colors.white,
+                              borderColor: Colors.grey,
+                              function: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title: Text('미구현'),
+                                      content: Text('메세지 기능은 아직 미구현 입니다.'),
+                                      actions: <Widget>[
+                                        TextButton(
+                                          child: Text('확인'),
+                                          onPressed: () {
+                                            Navigator.of(context).pop(); // 알림 창 닫기
+                                          },
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
+                              },
+                            )
+                          ],
+                        )
+                    )
                   ],
                 ),
                 Container(
